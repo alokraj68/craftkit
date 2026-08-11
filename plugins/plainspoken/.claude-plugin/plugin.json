@@ -1,0 +1,10 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "plainspoken",
+  "description": "Write prose that does not read as machine-written, and a zero-dependency linter that fails the build when it does.",
+  "version": "0.1.0",
+  "author": { "name": "Alok Rajasukumaran", "url": "https://alokraj68.in" },
+  "homepage": "https://github.com/alokraj68/plainspoken",
+  "license": "MIT",
+  "keywords": ["writing", "editing", "prose", "ai-detection", "linter", "documentation"]
+}

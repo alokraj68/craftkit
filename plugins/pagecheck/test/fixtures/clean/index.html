@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A page with nothing wrong with it</title>
+<style>
+  body { margin: 0; background: #ffffff; color: #1c1c1c; font: 16px/1.6 system-ui, sans-serif; }
+  main { padding: 16px; max-width: 100%; box-sizing: border-box; }
+  h1 { font-size: 28px; line-height: 1.2; }
+  a.button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: #1c1c1c; color: #fff; text-decoration: none; }
+  /* Stacked block children: a title over a subtitle over a date. These are
+     separate lines by design, and must not be measured as wrapped prose. */
+  .stacked span { display: block; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Release notes</h1>
+
+  <p>Cassandra replaced MySQL for the event log in March. Read latency at the ninety ninth percentile fell from three hundred and forty milliseconds to forty five, and the nightly export now finishes in eleven minutes rather than the fifty it used to take.</p>
+
+  <p>Jenkins builds the site on Node twenty four. The agent lacks the Sora typeface, so documents generated there came out in a fallback face, and we commit them from a local build instead of regenerating them in continuous integration.</p>
+
+  <p class="stacked">
+    <span>Lead Developer, Innovation Team</span>
+    <span>Astro-Vision FutureTech</span>
+    <span>April 2016 to August 2017</span>
+  </p>
+
+  <p><a class="button" href="#x">A tap target that is big enough</a></p>
+</main>
+</body>
+</html>

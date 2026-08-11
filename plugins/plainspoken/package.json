@@ -1,0 +1,27 @@
+{
+  "name": "plainspoken",
+  "version": "0.1.0",
+  "description": "Fail the build when writing reads as machine-written. A prose linter for AI fingerprints, filler and abstraction, with zero dependencies.",
+  "keywords": [
+    "ai-detection", "writing", "linter", "prose", "slop", "markdown",
+    "editorial", "style-guide", "claude-code", "content-quality"
+  ],
+  "license": "MIT",
+  "author": "Alok Rajasukumaran (https://alokraj68.in)",
+  "repository": { "type": "git", "url": "git+https://github.com/alokraj68/plainspoken.git" },
+  "homepage": "https://github.com/alokraj68/plainspoken#readme",
+  "bugs": { "url": "https://github.com/alokraj68/plainspoken/issues" },
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "bin": { "plainspoken": "bin/plainspoken.mjs" },
+  "exports": {
+    ".": "./src/lint.mjs",
+    "./rules": "./src/rules.mjs",
+    "./analyze": "./src/analyze.mjs"
+  },
+  "files": ["bin", "src", "README.md", "LICENSE"],
+  "scripts": {
+    "test": "node test/run.mjs",
+    "lint:self": "node bin/plainspoken.mjs README.md"
+  }
+}

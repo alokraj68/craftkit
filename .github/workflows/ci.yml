@@ -1,0 +1,33 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+
+      - run: node plugins/plainspoken/test/run.mjs
+
+      - name: pagecheck (needs a browser)
+        run: |
+          npm i --no-save playwright
+          npx playwright install --with-deps chromium
+          node plugins/pagecheck/test/run.mjs
+
+      # A prose linter that cannot survive its own documentation is not usable.
+      - name: lint this repo's own prose
+        run: |
+          node plugins/plainspoken/bin/plainspoken.mjs \
+            README.md CLAUDE.md \
+            plugins/plainspoken/README.md \
+            plugins/plainspoken/skills/plain-writing/SKILL.md \
+            plugins/pagecheck/skills/page-audit/SKILL.md \
+            plugins/craft-setup/skills/craft-setup/SKILL.md
+
+      - name: manifests parse
+        run: |
+          for f in .claude-plugin/marketplace.json plugins/*/.claude-plugin/plugin.json toolkit/skills.json; do
+            node -e "JSON.parse(require('fs').readFileSync('$f'))" || exit 1
+          done

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deliberately broken page</title>
+<style>
+  body { margin: 0; background: #ffffff; color: #222; font: 16px/1.6 system-ui, sans-serif; }
+  main { padding: 16px; }
+  /* 1. overflow: wider than any phone viewport */
+  .too-wide { width: 900px; background: #eee; padding: 8px; }
+  /* 2. text below the 12px floor */
+  .tiny { font-size: 10px; }
+  /* 3. a tap target under 44px */
+  .small-tap { display: inline-block; height: 20px; padding: 0 6px; background: #ddd; }
+  /* 4. body copy that fails WCAG AA on white */
+  .low-contrast { color: #b8b8b8; }
+  /* 5. body copy under the legibility floor with tight leading */
+  .cramped { font-size: 11px; line-height: 1.15; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Broken on purpose</h1>
+
+  <div class="too-wide">This block is 900px wide and must overflow a 375px viewport.</div>
+
+  <p class="tiny">This paragraph is set at ten pixels, which is below the twelve pixel floor for body text on a phone and should be reported.</p>
+
+  <p class="low-contrast">This paragraph is light grey on white, which lands well beneath the four point five to one ratio that WCAG AA asks for on body copy, so the contrast check must catch it.</p>
+
+  <p class="cramped">This paragraph is both too small and too tightly led, so it should trip the size floor and the leading floor at the same time in the typography audit.</p>
+
+  <p><a class="small-tap" href="#x">Tiny</a></p>
+
+  <!-- A clean paragraph: long enough to be measured, and it must NOT be reported. -->
+  <p>Cassandra replaced MySQL for the event log in March. Read latency at the ninety ninth percentile fell from three hundred and forty milliseconds down to forty five, and the nightly export now finishes in eleven minutes rather than the fifty it used to take.</p>
+</main>
+</body>
+</html>

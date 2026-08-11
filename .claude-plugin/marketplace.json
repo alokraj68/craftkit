@@ -1,0 +1,26 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "craftkit",
+  "description": "Quality gates for shipping work: prose that does not read as machine-written, pages that survive a phone, and a working agreement that makes agents verify before they claim.",
+  "owner": { "name": "Alok Rajasukumaran", "url": "https://github.com/alokraj68" },
+  "plugins": [
+    {
+      "name": "craft-setup",
+      "description": "The working agreement: verify before done, never commit unasked, enforce in code not prose, and keep checkers quiet enough to trust.",
+      "source": "./plugins/craft-setup",
+      "category": "workflow"
+    },
+    {
+      "name": "plainspoken",
+      "description": "Fail the build when prose reads as machine-written. AI phrases, vague tails, paired adjectives, tool-list endings and abstraction, with presets for docs and resumes.",
+      "source": "./plugins/plainspoken",
+      "category": "productivity"
+    },
+    {
+      "name": "pagecheck",
+      "description": "Layout and typography audit for built pages: overflow, ragged lines, tiny text, small tap targets, WCAG AA contrast.",
+      "source": "./plugins/pagecheck",
+      "category": "testing"
+    }
+  ]
+}
