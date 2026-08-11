@@ -1,0 +1,27 @@
+{
+  "basics": {
+    "name": "Sam Rivera",
+    "label": "Engineer",
+    "summary": "Building AI and ML systems with NLP and RAG.",
+    "location": { "city": "Kochi, Dubai, Riyadh, Muscat, Kuala Lumpur", "countryCode": "IN" }
+  },
+  "work": [
+    {
+      "name": "Northwind",
+      "position": "Junior Dev → Developer → Lead Developer",
+      "startDate": "March 2019",
+      "summary": "Led the platform team. ✓ Shipped on time. → Grew the team.",
+      "highlights": [
+        "Worked on the billing service",
+        "Improved the deployment process",
+        "Helped with onboarding"
+      ]
+    },
+    {
+      "name": "Acme — Cloud Division",
+      "position": "Engineer",
+      "startDate": "2016-01",
+      "highlights": ["Built things"]
+    }
+  ]
+}

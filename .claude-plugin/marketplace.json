@@ -2,7 +2,10 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "craftkit",
   "description": "Quality gates for shipping work: prose that does not read as machine-written, pages that survive a phone, and a working agreement that makes agents verify before they claim.",
-  "owner": { "name": "Alok Rajasukumaran", "url": "https://github.com/alokraj68" },
+  "owner": {
+    "name": "Alok Rajasukumaran",
+    "url": "https://github.com/alokraj68"
+  },
   "plugins": [
     {
       "name": "craft-setup",
@@ -21,6 +24,12 @@
       "description": "Layout and typography audit for built pages: overflow, ragged lines, tiny text, small tap targets, WCAG AA contrast.",
       "source": "./plugins/pagecheck",
       "category": "testing"
+    },
+    {
+      "name": "ats-resume",
+      "description": "Check that an applicant tracking system can parse your resume, and match it against a posting. Built on the JSON Resume schema.",
+      "source": "./plugins/ats-resume",
+      "category": "productivity"
     }
   ]
 }

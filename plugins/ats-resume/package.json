@@ -1,0 +1,15 @@
+{
+  "name": "ats-resume",
+  "version": "0.1.0",
+  "description": "Check that an applicant tracking system can actually parse your resume, and match it against a job description. Zero dependencies, built on the JSON Resume schema.",
+  "keywords": ["resume", "cv", "ats", "applicant-tracking", "json-resume", "job-search", "linter", "claude-code"],
+  "license": "MIT",
+  "author": "Alok Rajasukumaran (https://alokraj68.in)",
+  "repository": { "type": "git", "url": "git+https://github.com/alokraj68/craftkit.git", "directory": "plugins/ats-resume" },
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "bin": { "ats-resume": "bin/ats-resume.mjs" },
+  "exports": { ".": "./src/lint.mjs", "./rules": "./src/rules.mjs", "./normalize": "./src/normalize.mjs" },
+  "files": ["bin", "src", "README.md"],
+  "scripts": { "test": "node test/run.mjs" }
+}

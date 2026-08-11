@@ -3,17 +3,18 @@
 Quality gates for shipping work, packaged as Claude Code plugins, plus a curated
 list of the third-party skills they grew up alongside.
 
-Three plugins, each independently useful and independently installable:
+Four plugins, each independently useful and independently installable:
 
 | Plugin | Ships | What it does |
 |---|---|---|
 | `craft-setup` | skill only | The working agreement: verify before done, never commit unasked, enforce in code not prose |
 | `plainspoken` | skill + `plainspoken` CLI | Fails the build when prose reads as machine-written |
 | `pagecheck` | skill + `pagecheck` CLI | Fails the build when a page breaks on a phone or misses WCAG AA |
+| `ats-resume` | skill + `ats-resume` CLI | Fails when an applicant tracking system cannot parse the résumé |
 
 ```
 craftkit/
-  .claude-plugin/marketplace.json   the three plugins, by relative path
+  .claude-plugin/marketplace.json   the four plugins, by relative path
   plugins/
     craft-setup/                    skill only, no code
     plainspoken/                    npm package + skill
@@ -26,6 +27,12 @@ craftkit/
       src/audit.mjs                 the two in-page audits, plus pure rule helpers
       bin/pagecheck.mjs             CLI: serves a dir or hits a URL
       test/run.mjs                  21 tests
+    ats-resume/                     npm package + skill
+      src/rules.mjs                 what an ATS does, and the executive signals
+      src/normalize.mjs             JSON Resume -> the units the checks judge
+      src/lint.mjs                  source pass, extraction pass, tailoring
+      bin/ats-resume.mjs            CLI: lint, tailor
+      test/run.mjs                  37 tests
   toolkit/
     skills.json                     the curated set, by reference
     install.mjs                     interactive picker
@@ -80,12 +87,13 @@ documented exception, not the default.
 
 ## Testing
 
-Both suites assert **twice**: a rule must fire on input built to trip it *and*
+All three suites assert **twice**: a rule must fire on input built to trip it *and*
 stay silent on input that is merely factual. The second half is the one that
 matters.
 
 ```
 node plugins/plainspoken/test/run.mjs    # 33 tests
+node plugins/ats-resume/test/run.mjs     # 37 tests
 node plugins/pagecheck/test/run.mjs      # 21 tests, skips browser tests without playwright
 ```
 
@@ -95,6 +103,7 @@ Fixtures are paired on purpose:
 |---|---|
 | `plainspoken/test/fixtures/slop.md` | `.../clean.md` |
 | `pagecheck/test/fixtures/broken/` | `.../clean/` |
+| `ats-resume/test/fixtures/broken.json` | `.../good.json` |
 
 `clean.md` and `clean/index.html` are the important files. If a change makes
 either produce a finding, the change is wrong until proven otherwise.
@@ -106,9 +115,17 @@ cannot survive its own documentation is not usable.
 
 ## House rules
 
+### ats-resume takes JSON Resume as given
+
+The schema is jsonresume.org's, and it is not ours to extend. Adding a bespoke
+field would make every résumé written for this tool unusable anywhere else,
+which is the whole reason a standard was adopted instead of inventing a shape.
+If something cannot be expressed in the schema, it belongs in the linter's
+config, not in the data.
+
 ### Zero runtime dependencies
 
-`plainspoken` has none at all. `pagecheck` takes Playwright as a **peer**
+`plainspoken` and `ats-resume` have none at all. `pagecheck` takes Playwright as a **peer**
 dependency, optional to install, because it is a large download and most
 projects that want a layout audit already have it. Neither should ever gain a
 runtime dependency for parsing, colour maths or CLI formatting — all three are

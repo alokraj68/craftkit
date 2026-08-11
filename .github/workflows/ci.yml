@@ -9,6 +9,7 @@ jobs:
         with: { node-version: 22 }
 
       - run: node plugins/plainspoken/test/run.mjs
+      - run: node plugins/ats-resume/test/run.mjs
 
       - name: pagecheck (needs a browser)
         run: |
@@ -24,7 +25,8 @@ jobs:
             plugins/plainspoken/README.md \
             plugins/plainspoken/skills/plain-writing/SKILL.md \
             plugins/pagecheck/skills/page-audit/SKILL.md \
-            plugins/craft-setup/skills/craft-setup/SKILL.md
+            plugins/craft-setup/skills/craft-setup/SKILL.md \
+            plugins/ats-resume/skills/tailor-resume/SKILL.md
 
       - name: manifests parse
         run: |

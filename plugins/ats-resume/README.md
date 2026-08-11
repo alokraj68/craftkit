@@ -1,0 +1,96 @@
+# ats-resume
+
+Check that an applicant tracking system can actually read your résumé, and
+whether it matches the posting you are about to apply to.
+
+Zero dependencies. Built on the [JSON Resume](https://jsonresume.org) schema, so
+you bring a `resume.json` you may already have rather than learning another
+format.
+
+```
+npx ats-resume lint resume.json
+npx ats-resume tailor resume.json posting.txt
+```
+
+## This is not a writing checker
+
+`plainspoken` asks whether prose reads as machine-written. This asks whether a
+machine can parse the file at all. The two are deliberately separate tools.
+
+## What it checks
+
+**Source (`resume.json`)**
+
+- Contact fields a parser needs, and a location field holding five cities.
+- A promotion chain in the position field — `Junior Dev → Developer → Lead`
+  parses as one garbled job title.
+- Em and en dashes anywhere in a parsed field.
+- Non-ISO dates. Date extraction is the most fragile part of parsing.
+- Decorative glyphs, invented headings, missing sections.
+- Acronyms appearing without their expansion, and the reverse.
+- How many bullets carry a number.
+- Eight executive signals, reported as **questions, not defects** — team size,
+  hiring, retention, budget, revenue, scale, delivery speed, strategy.
+
+**Extracted text — what an ATS actually receives**
+
+```
+pdftotext -layout Sam-Rivera-Resume.pdf out.txt
+npx ats-resume lint out.txt
+```
+
+- Is there a text layer at all? An image-only PDF scores zero everywhere.
+- Did the standard headings survive?
+- **Did the contact block keep its separators?** Flexbox gaps do not exist in
+  extracted text, and standalone separator elements can be dropped from a PDF's
+  text layer entirely — leaving one unsplittable string where a parser expected
+  four fields. This looks perfect in the DOM and on screen. Only reading the
+  extraction finds it.
+- Em-dash date ranges, decorative glyphs, keyword stuffing.
+
+Stuffing is measured as **density**, not as a statistical outlier. On a
+700-word document almost any word appearing ten times clears three sigma, which
+made an earlier version fire on ordinary subject words. Real stuffing sits at
+2.5%+ for a single term.
+
+## Tailoring
+
+```
+$ npx ats-resume tailor resume.json posting.txt
+
+match rate  60%  (marginal)
+
+fatal gaps - repeated in the posting, absent from your résumé:
+  terraform  (3x in the JD)
+  datadog    (3x in the JD)
+
+lead with:
+    4 matching terms  Lead Platform Engineer, Northwind
+```
+
+Terms are filtered to things the posting **names** — a word capitalised
+mid-sentence is nearly always a technology or a company, while "heavily" and
+"expected" never are. Without that filter the gap list fills with job-ad
+boilerplate, and a gap list nobody reads is worth nothing.
+
+The gap list matters more than the score. Each missing term has three honest
+outcomes: true and unwritten (add it where the work happened), true but weak
+(mention it once), or not true (leave it out — that is your interview prep
+list). Only the first is a wording fix.
+
+## Exit codes
+
+`1` on any error, `0` otherwise. `--json` for machine-readable output.
+
+## Testing
+
+37 tests. Every check is asserted twice: it must fire on a résumé built to break
+parsing **and** stay silent on one that is simply well formed.
+
+```
+node test/run.mjs
+```
+
+## Licence
+
+MIT

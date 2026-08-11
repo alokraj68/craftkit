@@ -1,0 +1,65 @@
+{
+  "basics": {
+    "name": "Sam Rivera",
+    "label": "Platform Engineer",
+    "email": "sam@example.com",
+    "phone": "+44 7700 900000",
+    "summary": "Platform engineer. I run the billing and event systems at Northwind, where AI (Artificial Intelligence) and ML (Machine Learning) work sits next to a Postgres estate of 40 databases.",
+    "location": {
+      "city": "Manchester",
+      "countryCode": "GB"
+    }
+  },
+  "work": [
+    {
+      "name": "Northwind",
+      "position": "Lead Platform Engineer",
+      "startDate": "2021-03",
+      "summary": "Own the billing and event platform. Promoted from Engineer in 2022.",
+      "highlights": [
+        "Cut p99 read latency from 340ms to 45ms by moving the event log to Cassandra",
+        "Lead 12 engineers across Manchester and Krak\u00f3w; retained 10 of them over 3 years",
+        "Hired and onboarded 14 engineers across 3 years, including the 2 who now run the platform",
+        "Took releases from every 6 weeks to weekly by introducing CI/CD across 9 services",
+        "Run the billing platform at 99.95% uptime on a budget of $1.4M and revenue of $20M"
+      ]
+    },
+    {
+      "name": "Acme",
+      "position": "Engineer",
+      "startDate": "2018-01",
+      "endDate": "2021-02",
+      "highlights": [
+        "Shipped the Stripe migration for 40,000 customers in 5 months"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Manchester",
+      "area": "Computer Science",
+      "studyType": "BSc"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Backend",
+      "keywords": [
+        "TypeScript",
+        "Node.js",
+        "Postgres",
+        "Cassandra",
+        "Kubernetes"
+      ]
+    },
+    {
+      "name": "Practices",
+      "keywords": [
+        "CI/CD",
+        "Continuous Integration and Continuous Delivery",
+        "architecture",
+        "roadmap"
+      ]
+    }
+  ]
+}

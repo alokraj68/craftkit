@@ -13,9 +13,10 @@ Then install only what you want:
 /plugin install craft-setup@craftkit
 /plugin install plainspoken@craftkit
 /plugin install pagecheck@craftkit
+/plugin install ats-resume@craftkit
 ```
 
-## Three plugins
+## Four plugins
 
 ### `craft-setup` — the working agreement
 
@@ -62,6 +63,21 @@ Horizontal overflow **and the element causing it**, ragged line endings, text
 under 12px, tap targets under 44px, plus size, leading, weight, measure and
 WCAG AA contrast per text style. Playwright is a peer dependency.
 
+### `ats-resume` — a résumé a machine can read
+
+Different question from `plainspoken`: not whether the prose reads well, but
+whether an applicant tracking system can parse the file at all.
+
+```
+npx ats-resume lint resume.json
+npx ats-resume tailor resume.json posting.txt
+```
+
+Built on the [JSON Resume](https://jsonresume.org) schema. Catches promotion
+chains in the title field, non-ISO dates, glyphs a parser chokes on, and the
+contact block losing its separators during PDF extraction — which looks perfect
+in the DOM and leaves one unsplittable string in the file.
+
 ## Why these and not the dozens that already exist
 
 **A checker that fires on correct work is worse than no checker.** It trains
@@ -79,8 +95,8 @@ rect per inline-block box rather than one per rendered line, scroll animations
 leave elements mid-transform, and stacked block children are separate lines by
 design rather than badly wrapped prose.
 
-Both test suites assert twice — a rule must fire on input built to trip it
-**and** stay silent on input that is merely factual. 54 tests.
+Every test suite asserts twice — a rule must fire on input built to trip it
+**and** stay silent on input that is merely factual. 91 tests.
 
 ## The curated toolkit
 
