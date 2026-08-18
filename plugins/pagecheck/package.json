@@ -2,16 +2,49 @@
   "name": "pagecheck",
   "version": "0.1.0",
   "description": "Audit built pages for the defects a desktop review never sees: horizontal overflow, ragged lines, tiny text, small tap targets, and typography that fails WCAG AA.",
-  "keywords": ["accessibility", "typography", "mobile", "layout", "audit", "playwright", "wcag", "contrast", "claude-code"],
+  "keywords": [
+    "accessibility",
+    "typography",
+    "mobile",
+    "layout",
+    "audit",
+    "playwright",
+    "wcag",
+    "contrast",
+    "claude-code"
+  ],
   "license": "MIT",
   "author": "Alok Rajasukumaran (https://alokraj68.in)",
-  "repository": { "type": "git", "url": "git+https://github.com/alokraj68/craftkit.git", "directory": "plugins/pagecheck" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alokraj68/craftkit.git",
+    "directory": "plugins/pagecheck"
+  },
   "type": "module",
-  "engines": { "node": ">=18" },
-  "bin": { "pagecheck": "bin/pagecheck.mjs" },
-  "exports": { ".": "./src/audit.mjs" },
-  "files": ["bin", "src", "README.md"],
-  "peerDependencies": { "playwright": ">=1.40" },
-  "peerDependenciesMeta": { "playwright": { "optional": false } },
-  "scripts": { "test": "node test/run.mjs" }
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "pagecheck": "bin/pagecheck.mjs"
+  },
+  "exports": {
+    ".": "./src/audit.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "playwright": ">=1.40"
+  },
+  "peerDependenciesMeta": {
+    "playwright": {
+      "optional": false
+    }
+  },
+  "scripts": {
+    "test": "node test/run.mjs"
+  }
 }
