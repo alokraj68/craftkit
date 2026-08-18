@@ -2,9 +2,19 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "pagecheck",
   "description": "Audit built pages for what a desktop review never sees: horizontal overflow, ragged lines, sub-12px text, tap targets under 44px, and typography that fails WCAG AA.",
-  "version": "0.1.0",
-  "author": { "name": "Alok Rajasukumaran", "url": "https://alokraj68.in" },
+  "version": "1.0.0",
+  "author": {
+    "name": "Alok Rajasukumaran",
+    "url": "https://alokraj68.in"
+  },
   "homepage": "https://github.com/alokraj68/craftkit",
   "license": "MIT",
-  "keywords": ["accessibility", "typography", "mobile", "layout", "wcag", "playwright"]
+  "keywords": [
+    "accessibility",
+    "typography",
+    "mobile",
+    "layout",
+    "wcag",
+    "playwright"
+  ]
 }

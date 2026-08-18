@@ -2,9 +2,18 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "craft-setup",
   "description": "The working agreement: verify before claiming done, never commit unasked, enforce rules in code, and keep checkers quiet enough to be believed.",
-  "version": "0.1.0",
-  "author": { "name": "Alok Rajasukumaran", "url": "https://alokraj68.in" },
+  "version": "1.0.0",
+  "author": {
+    "name": "Alok Rajasukumaran",
+    "url": "https://alokraj68.in"
+  },
   "homepage": "https://github.com/alokraj68/craftkit",
   "license": "MIT",
-  "keywords": ["workflow", "quality", "governance", "verification", "setup"]
+  "keywords": [
+    "workflow",
+    "quality",
+    "governance",
+    "verification",
+    "setup"
+  ]
 }

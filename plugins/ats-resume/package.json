@@ -1,6 +1,6 @@
 {
   "name": "ats-resume",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Check that an applicant tracking system can actually parse your resume, and match it against a job description. Zero dependencies, built on the JSON Resume schema.",
   "keywords": [
     "resume",
