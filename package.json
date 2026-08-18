@@ -1,0 +1,16 @@
+{
+  "name": "craftkit",
+  "private": true,
+  "description": "Quality gates for shipping work, as Claude Code plugins. Each plugin under plugins/ publishes to npm independently; this root is not published.",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node plugins/plainspoken/test/run.mjs && node plugins/ats-resume/test/run.mjs && node plugins/pagecheck/test/run.mjs",
+    "test:prose": "node plugins/plainspoken/test/run.mjs",
+    "test:resume": "node plugins/ats-resume/test/run.mjs",
+    "test:page": "node plugins/pagecheck/test/run.mjs",
+    "lint:prose": "node plugins/plainspoken/bin/plainspoken.mjs README.md CLAUDE.md plugins/*/README.md plugins/*/skills/*/SKILL.md",
+    "toolkit": "node toolkit/install.mjs"
+  }
+}

@@ -92,10 +92,22 @@ stay silent on input that is merely factual. The second half is the one that
 matters.
 
 ```
+npm test                                 # all three suites
+
 node plugins/plainspoken/test/run.mjs    # 33 tests
 node plugins/ats-resume/test/run.mjs     # 37 tests
-node plugins/pagecheck/test/run.mjs      # 21 tests, skips browser tests without playwright
+node plugins/pagecheck/test/run.mjs      # 21 tests
 ```
+
+`pagecheck` needs a browser for 11 of its 21 tests and **skips them silently**
+rather than failing when Playwright is absent, so a green run of 10 is not the
+same as a green run of 21. Read the count. For the full suite:
+
+```
+npm i --no-save playwright && npx playwright install chromium
+```
+
+CI installs it, so the full 21 always run there.
 
 Fixtures are paired on purpose:
 
