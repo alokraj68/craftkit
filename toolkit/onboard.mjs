@@ -8,6 +8,8 @@
 //   npx craftkit --update-pins    resolve each upstream HEAD, write it back
 //   npx craftkit ui --latest      ignore the pins on purpose
 //   npx craftkit ui --dry-run     show exactly what would happen, do nothing
+//   npx craftkit agents           write AGENTS.md for any non-Claude harness
+//   npx craftkit agents --cursor  also write .cursor/rules/craftkit.mdc
 //
 // It does the work: enables plugins by writing settings.json, clones skills
 // from their upstreams, and runs the installers that cannot be a plain copy.
@@ -54,6 +56,16 @@ function printCatalogue() {
   }
 }
 
+// Not every harness is Claude Code. AGENTS.md is the convention Codex, Cursor,
+// opencode and Copilot read, and the CLIs never needed a harness at all.
+if (named[0] === 'agents') {
+  const mod = await import(join(here, 'gen-agents.mjs'));
+  if (has('--print')) { process.stdout.write(mod.renderAgentsMd()); process.exit(0); }
+  const written = mod.writeAgents({ cursor: has('--cursor'), log: say });
+  for (const w of written) say(`  wrote ${w.replace(process.cwd(), '.')}`);
+  process.exit(written.length ? 0 : 1);
+}
+
 if (has('--list') || has('-l')) { printCatalogue(); process.exit(0); }
 
 // Refresh every pin to its upstream HEAD and write the catalogue back, so
@@ -97,7 +109,7 @@ if (has('--update-pins')) {
 // ------------------------------------------------------------------- choose
 const keys = Object.keys(cat.buckets);
 let chosen = named.filter((n) => keys.includes(n));
-const unknown = named.filter((n) => !keys.includes(n));
+const unknown = named.filter((n) => !keys.includes(n) && n !== 'agents');
 if (unknown.length) {
   console.error(`craftkit: unknown option(s): ${unknown.join(', ')}\nKnown: ${keys.join(', ')}`);
   process.exit(2);

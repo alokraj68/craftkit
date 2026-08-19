@@ -12,7 +12,10 @@ Four Claude Code plugins that turn "looks fine to me" into a build that fails. P
 [![plugins](https://img.shields.io/badge/plugins-4-6E56CF.svg)](#-the-four-plugins)
 [![tests](https://img.shields.io/badge/tests-91-2EA043.svg)](#-the-filter-every-rule-had-to-pass)
 [![runtime deps](https://img.shields.io/badge/runtime%20deps-0-2EA043.svg)](#-how-it-works)
+[![Platforms](https://github.com/alokraj68/craftkit/actions/workflows/platforms.yml/badge.svg)](https://github.com/alokraj68/craftkit/actions/workflows/platforms.yml)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin%20marketplace-D97757.svg)](https://claude.com/claude-code)
+[![AGENTS.md](https://img.shields.io/badge/AGENTS.md-any%20agent-4A5568.svg)](#-any-agent-not-just-claude-code)
+[![platforms](https://img.shields.io/badge/win%20%7C%20mac%20%7C%20linux%20%7C%20alpine-tested-2EA043.svg)](#-runs-everywhere-checked-not-claimed)
 
 ```
 npx @alokraj68/craftkit
@@ -43,6 +46,8 @@ So every rule here had to clear two bars, not one. **Fire on writing built to tr
 - [Install](#-install)
 - [The four plugins](#-the-four-plugins)
 - [The filter every rule had to pass](#-the-filter-every-rule-had-to-pass)
+- [Runs everywhere](#-runs-everywhere-checked-not-claimed)
+- [Any agent, not just Claude Code](#-any-agent-not-just-claude-code)
 - [The curated toolkit](#-the-curated-toolkit)
 - [How it works](#-how-it-works)
 - [For AI coding agents](#-for-ai-coding-agents)
@@ -212,6 +217,57 @@ The `clean` fixtures are the important ones. If a change makes any of them produ
 Three of the tests exist purely to keep out patterns that looked reasonable and were not: a real port ("from Java to C#") is not a false range, a list of places ("Australia, Europe and the US") is not tricolon abuse, and a factual stack list is not slop.
 
 `plainspoken` also lints this repository's own prose in CI. A prose linter that cannot survive its own README is not usable.
+
+## 🖥️ Runs everywhere, checked not claimed
+
+Every push runs the real installer on five targets: download the release, verify
+the published SHA256, unpack it, and execute the binary.
+
+| | Verified by |
+|---|---|
+| 🪟 **Windows** x64 and ARM | `windows-latest`, install and run |
+| 🐧 **Linux** x64 and ARM (glibc) | `ubuntu-latest`, install and run |
+| 🏔️ **Alpine** and musl | `node:22-alpine`, musl detection then install and run |
+| 🍎 **macOS** Apple silicon | `macos-latest`, install and run |
+| 🍏 **macOS** Intel | `macos-13`, install and run |
+
+That matrix exists because "works on my Mac" was wrong three times in a row. A
+real Windows run found the installer reporting success while installing nothing:
+the main-module guard compared `import.meta.url` against `'file://' +
+process.argv[1]`, which never matches on a drive path. Alpine found `renameSync`
+failing with `EXDEV`, because a container's `/tmp` and `$HOME` are different
+mounts. Both are now asserted in `toolkit/test-platforms.mjs` so they cannot come
+back quietly.
+
+Alpine gets its own job for a reason: Node reports plain `linux-x64` there, so
+the glibc build would be picked and would die at load time with an error naming
+nothing useful.
+
+## 🤖 Any agent, not just Claude Code
+
+The CLIs are **npm packages that exit non-zero**. They need no harness at all,
+and behave the same from a terminal, from CI, or from inside an agent.
+
+```bash
+npx @alokraj68/craftkit agents            # write AGENTS.md
+npx @alokraj68/craftkit agents --cursor   # and .cursor/rules/craftkit.mdc
+npx @alokraj68/craftkit agents --print    # inspect it first
+```
+
+`AGENTS.md` is the convention Codex, Cursor, opencode, Copilot, Gemini CLI and
+others already read, so one file reaches all of them.
+
+| Harness | How it gets the gates | How it gets the judgement |
+|---|---|---|
+| **Claude Code** | `/plugin marketplace add alokraj68/craftkit` | skills, installed as plugins |
+| **Codex, opencode, Copilot** | `AGENTS.md` | same file |
+| **Cursor** | `AGENTS.md` | `.cursor/rules/craftkit.mdc` |
+| **Anything else** | `npx @alokraj68/plainspoken` | `node_modules/@alokraj68/*/skills/*/SKILL.md` |
+| **No agent at all** | the CLIs, in CI or a terminal | read the README |
+
+Every package ships its `SKILL.md` inside the npm tarball, so an agent that only
+ran `npm i` can read the reasoning without ever touching a marketplace. It will
+not overwrite an `AGENTS.md` that craftkit did not write.
 
 ## 🎒 The curated toolkit
 
