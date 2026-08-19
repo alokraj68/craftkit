@@ -30,7 +30,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest, macos-13]
+        # macos-latest is Apple silicon; the -intel entry is what actually
+        # exercises the x64 branch of resolveTarget. It was macos-13 until that
+        # image was retired - the label stopped being served, so the job queued
+        # forever and no run of this workflow ever finished.
+        os: [ubuntu-latest, windows-latest, macos-latest, macos-15-intel]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
