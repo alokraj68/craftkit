@@ -34,8 +34,8 @@ craftkit/
       bin/ats-resume.mjs            CLI: lint, tailor
       test/run.mjs                  37 tests
   toolkit/
-    skills.json                     the curated set, by reference
-    install.mjs                     interactive picker
+    catalogue.json                  the curated set, grouped by what you do
+    onboard.mjs                     `npx craftkit` - the onboarding wizard
 ```
 
 ---

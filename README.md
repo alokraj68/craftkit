@@ -15,7 +15,7 @@ Four Claude Code plugins that turn "looks fine to me" into a build that fails. P
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin%20marketplace-D97757.svg)](https://claude.com/claude-code)
 
 ```
-/plugin marketplace add alokraj68/craftkit
+npx craftkit
 ```
 
 </div>
@@ -59,9 +59,56 @@ So every rule here had to clear two bars, not one. **Fire on writing built to tr
 
 ## 📦 Install
 
-As a Claude Code marketplace, then take **only what you want**:
+One command. It asks what you do on this machine, then installs only that.
 
 ```bash
+npx craftkit
+```
+
+```
+  What will you be doing on this machine?
+  Pick any number of them.
+
+    1  🎨  UI / UX and frontend design
+    2  ✍️  Writing, docs and READMEs
+    3  💻  Coding
+    4  📄  Résumé and job search
+    5  🔍  SEO and content strategy
+
+  Whatever you pick, caveman and lean-ctx are installed too.
+
+  Numbers (e.g. 1,3), "all", or blank to cancel:
+```
+
+It then enables the plugins by writing `settings.json`, clones the skills from
+their own upstreams, and runs the two installers that cannot be a plain copy.
+
+| | |
+|---|---|
+| 🎨 **ui** | frontend-design, ui-ux-pro-max, design-taste-frontend, nine Emil Kowalski motion skills, impeccable, `pagecheck` |
+| ✍️ **writing** | `plainspoken` |
+| 💻 **coding** | ponytail, karpathy-guidelines, `craft-setup` |
+| 📄 **resume** | `ats-resume`, `plainspoken` |
+| 🔍 **seo** | ~30 SEO skills |
+| ⚙️ **always** | caveman, lean-ctx |
+
+```bash
+npx craftkit --list          # the whole catalogue, install nothing
+npx craftkit ui coding       # skip the question
+npx craftkit ui --dry-run    # show exactly what would happen
+npx craftkit --all --yes     # everything, no prompts
+npx craftkit writing --project   # write ./.claude/settings.json, not ~/
+```
+
+**Nothing runs before you have seen it.** The plan lists every plugin, every
+repository, and the exact text of every command, including the one that pipes a
+remote script into bash. Your `settings.json` is backed up before it is touched.
+
+### Just the plugins
+
+If you would rather skip the wizard:
+
+```
 /plugin marketplace add alokraj68/craftkit
 
 /plugin install plainspoken@craftkit
@@ -70,16 +117,13 @@ As a Claude Code marketplace, then take **only what you want**:
 /plugin install craft-setup@craftkit
 ```
 
-Or clone and run the CLIs directly:
+Or install a CLI on its own:
 
 ```bash
-git clone https://github.com/alokraj68/craftkit && cd craftkit
-npm test
+npm i -D plainspoken
+npm i -D pagecheck playwright
+npm i -D ats-resume
 ```
-
-> **Heads up:** the npm packages are not published yet, so `npx plainspoken`
-> does not work today. Run them from a clone until [the roadmap](#-roadmap)
-> says otherwise.
 
 ## 🧩 The four plugins
 
@@ -163,15 +207,22 @@ Three of the tests exist purely to keep out patterns that looked reasonable and 
 
 ## 🎒 The curated toolkit
 
-```bash
-node toolkit/install.mjs --list      # see everything
-node toolkit/install.mjs             # pick what you want
-node toolkit/install.mjs animate karpathy-guidelines
-```
+`toolkit/catalogue.json` is the whole set, grouped by what you do rather than by
+who wrote it. `npx craftkit` reads it.
 
-**Nothing third-party is vendored here.** Of the 47 skills this grew from, **26 carry no licence file at all** — which under copyright means the author kept every right. Public is not the same as redistributable. The installer clones from each upstream instead, so their name stays on the work and their fixes reach you.
+**Nothing third-party is vendored here.** Of the 47 skills this grew from, **26
+carry no licence file at all**, which under copyright means the author kept every
+right. Public is not the same as redistributable. The installer clones from each
+upstream instead, so their name stays on the work and their fixes reach you.
 
-It installs each skill under its **declared** `name:` rather than its directory name (a real difference for at least one of them), and never installs anything without an explicit choice and a confirmation prompt. These run with full agent permissions.
+Two details a manual copy gets wrong, and the installer does not:
+
+- A skill installs under its **declared `name:`**, not its directory name.
+  `leonxlnx/taste-skill` ships in `taste-skill` and declares
+  `design-taste-frontend`
+- **`impeccable` must run its own installer.** Its `SKILL.md` is generated from
+  `SKILL.src.md` and still holds `{{scripts_path}}` placeholders, so a plain copy
+  installs a broken skill
 
 ## 🧠 How it works
 
@@ -205,7 +256,7 @@ follow craftkit/craft-setup: run the checks and name what went unverified.
 
 ## 🗺️ Roadmap
 
-- [ ] Publish `plainspoken`, `pagecheck` and `ats-resume` to npm so `npx` works
+- [ ] Publish `craftkit`, `plainspoken`, `pagecheck` and `ats-resume` to npm
 - [ ] Retire the duplicated copies still living in [alokraj68.in](https://github.com/alokraj68/alokraj68.in) once the packages are published
 - [ ] `.docx` and PDF export for `ats-resume`, or a documented handoff to an existing JSON Resume theme
 - [ ] A `--fix` mode for the mechanical half of `plainspoken`

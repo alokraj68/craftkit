@@ -1,16 +1,23 @@
 {
   "name": "craftkit",
-  "private": true,
-  "description": "Quality gates for shipping work, as Claude Code plugins. Each plugin under plugins/ publishes to npm independently; this root is not published.",
+  "version": "1.0.0",
+  "description": "Set up Claude Code for what you actually do on this machine. Asks whether you are doing UI, writing, coding, resumes or SEO, then installs only those plugins and skills.",
+  "keywords": ["claude-code", "onboarding", "setup", "plugins", "skills", "cli", "agent", "developer-tools"],
   "license": "MIT",
+  "author": "Alok Rajasukumaran (https://alokraj68.in)",
+  "repository": { "type": "git", "url": "git+https://github.com/alokraj68/craftkit.git" },
+  "homepage": "https://github.com/alokraj68/craftkit#readme",
+  "bugs": { "url": "https://github.com/alokraj68/craftkit/issues" },
   "type": "module",
   "engines": { "node": ">=18" },
+  "bin": { "craftkit": "toolkit/onboard.mjs" },
+  "files": ["toolkit", "README.md", "LICENSE"],
   "scripts": {
     "test": "node plugins/plainspoken/test/run.mjs && node plugins/ats-resume/test/run.mjs && node plugins/pagecheck/test/run.mjs",
     "test:prose": "node plugins/plainspoken/test/run.mjs",
     "test:resume": "node plugins/ats-resume/test/run.mjs",
     "test:page": "node plugins/pagecheck/test/run.mjs",
     "lint:prose": "node plugins/plainspoken/bin/plainspoken.mjs README.md CLAUDE.md plugins/*/README.md plugins/*/skills/*/SKILL.md",
-    "toolkit": "node toolkit/install.mjs"
+    "onboard": "node toolkit/onboard.mjs"
   }
 }
