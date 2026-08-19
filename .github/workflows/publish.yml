@@ -112,3 +112,24 @@ jobs:
           name: v${{ steps.v.outputs.version }}
           generate_release_notes: true
           fail_on_unmatched_files: false
+
+      # Tell alokraj68.in to rebuild. Its open-source section reads npm at build
+      # time, so without this the site keeps naming the previous version until
+      # its nightly cron runs. Best effort on purpose: a failure here must not
+      # fail a release that already went out, and the nightly rebuild is the
+      # backstop if the token has expired.
+      - name: Refresh alokraj68.in
+        if: steps.tag.outputs.exists == 'false'
+        continue-on-error: true
+        env:
+          TOKEN: ${{ secrets.SITE_REFRESH_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::warning::SITE_REFRESH_TOKEN not set - the site will pick this up on its nightly rebuild."
+            exit 0
+          fi
+          curl -sf -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $TOKEN" \
+            https://api.github.com/repos/alokraj68/alokraj68.in/dispatches \
+            -d '{"event_type":"package-published","client_payload":{"package":"@alokraj68/craftkit","version":"${{ steps.v.outputs.version }}"}}'
