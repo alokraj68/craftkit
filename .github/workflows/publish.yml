@@ -16,6 +16,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -31,12 +32,13 @@ jobs:
       - name: pagecheck (with a browser)
         run: |
           npm i --no-save playwright
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
           node plugins/pagecheck/test/run.mjs
 
   publish:
     needs: test
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       # One npm package per directory. The root is the `craftkit` CLI.

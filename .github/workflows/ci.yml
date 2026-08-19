@@ -13,6 +13,7 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -37,11 +38,12 @@ jobs:
       - name: pagecheck
         run: |
           npm i --no-save playwright
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
           node plugins/pagecheck/test/run.mjs
 
   quality:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
