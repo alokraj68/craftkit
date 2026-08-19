@@ -40,6 +40,7 @@
     "test:resume": "node plugins/ats-resume/test/run.mjs",
     "test:page": "node plugins/pagecheck/test/run.mjs",
     "lint:prose": "node plugins/plainspoken/bin/plainspoken.mjs README.md CLAUDE.md plugins/*/README.md plugins/*/skills/*/SKILL.md",
-    "onboard": "node toolkit/onboard.mjs"
+    "onboard": "node toolkit/onboard.mjs",
+    "release": "node toolkit/release.mjs"
   }
 }

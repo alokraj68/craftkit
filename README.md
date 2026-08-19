@@ -265,6 +265,24 @@ Prose gates come from craftkit/plainspoken. Before claiming work is done,
 follow craftkit/craft-setup: run the checks and name what went unverified.
 ```
 
+## 🚢 Releasing
+
+One command, all four packages:
+
+```bash
+npm run release -- --dry-run     # what would go out, and why
+npm run release                  # publish whatever is not on npm yet
+npm run release -- --bump patch  # move all versions in step, then publish
+```
+
+It runs every test suite before publishing anything, skips versions already on
+npm, and asks for the 2FA code once rather than four times.
+
+Once a trusted publisher is configured on npmjs.com for each package
+(`alokraj68` / `craftkit` / `publish.yml`), releasing is just `git push`:
+`.github/workflows/publish.yml` does the same work over OIDC, with provenance
+and no token anywhere in the repository.
+
 ## 🗺️ Roadmap
 
 - [ ] Publish `craftkit`, `plainspoken`, `pagecheck` and `ats-resume` to npm
