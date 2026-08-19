@@ -7,6 +7,8 @@
 Four Claude Code plugins that turn "looks fine to me" into a build that fails. Prose that reads as machine-written, pages that break on a phone, résumés no parser can read, and agents that say "done" without running anything: each one gets a gate instead of a good intention.
 
 [![CI](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml/badge.svg)](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/alokraj68/craftkit/actions/workflows/codeql.yml/badge.svg)](https://github.com/alokraj68/craftkit/actions/workflows/codeql.yml)
+[![npm version](https://img.shields.io/npm/v/@alokraj68/craftkit.svg)](https://www.npmjs.com/package/@alokraj68/craftkit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node >=18](https://img.shields.io/badge/Node-%3E%3D18-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
 [![plugins](https://img.shields.io/badge/plugins-4-6E56CF.svg)](#-the-four-plugins)

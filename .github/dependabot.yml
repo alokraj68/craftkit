@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # Only github-actions. craftkit has no dependencies at all, runtime or dev,
+  # in the root or in any plugin, so an npm block here would never fire.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - github-actions
+    groups:
+      github-actions:
+        patterns:
+          - '*'
