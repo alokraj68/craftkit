@@ -24,6 +24,8 @@ import { join, basename, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createInterface } from 'node:readline/promises';
 
+import { pickBuckets } from './picks.mjs';
+
 const here = dirname(fileURLToPath(import.meta.url));
 const cat = JSON.parse(readFileSync(join(here, 'catalogue.json'), 'utf8'));
 const HOME = homedir();
@@ -86,6 +88,19 @@ const say = (s = '') => console.log(plain(s));
 const item = (id) => cat.items[id];
 
 // ---------------------------------------------------------------- catalogue
+/** Ask a question. Ctrl+D means cancel, not crash. */
+async function ask(prompt) {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    return await rl.question(plain(prompt));
+  } catch (err) {
+    if (err?.code === 'ABORT_ERR') { say('\n  Cancelled.\n'); process.exit(0); }
+    throw err;
+  } finally {
+    rl.close();
+  }
+}
+
 function printCatalogue() {
   say(`\n${C.b}🧰 craftkit${C.off}\n`);
   say(`  ${C.dim}Always installed${C.off}`);
@@ -168,28 +183,20 @@ if (!chosen.length) {
   say(`\n${C.b}🧰 craftkit${C.off}`);
   say(`\n  What will you be doing on this machine?`);
   say(`  ${C.dim}Pick any number of them.${C.off}\n`);
+  // Everything is option 1 because it is the common answer, and asking someone
+  // to type a word when every other choice is a digit is a small papercut.
+  say(`    ${C.b}1${C.off}  \u{1F4E6}  Everything`);
+  say(`       ${C.dim}all ${keys.length} of the below${C.off}`);
   keys.forEach((k, i) => {
     const b = cat.buckets[k];
-    say(`    ${C.b}${i + 1}${C.off}  ${b.emoji}  ${b.label}`);
+    say(`    ${C.b}${i + 2}${C.off}  ${b.emoji}  ${b.label}`);
     say(`       ${C.dim}${b.blurb}${C.off}`);
   });
   say(`\n  ${C.dim}Whatever you pick, ${cat.always.join(' and ')} are installed too.${C.off}`);
-  const rl = createInterface({ input: process.stdin, output: process.stdout });
-  const answer = await rl.question(plain(`\n  ${C.c}Numbers (e.g. 1,3), "all", or blank to cancel:${C.off} `));
-  rl.close();
+  const answer = await ask(`\n  ${C.c}Numbers (e.g. 2,4), or blank to cancel:${C.off} `);
   const raw = answer.trim().toLowerCase();
   if (!raw) { say('\n  Nothing installed.\n'); process.exit(0); }
-  if (raw === 'all') chosen = keys;
-  else {
-    const picked = new Set();
-    for (const part of raw.split(/[,\s]+/).filter(Boolean)) {
-      const range = part.match(/^(\d+)-(\d+)$/);
-      if (range) for (let i = +range[1]; i <= +range[2]; i++) picked.add(i);
-      else if (/^\d+$/.test(part)) picked.add(+part);
-      else say(`  ${C.y}ignoring "${part}"${C.off}`);
-    }
-    chosen = [...picked].map((n) => keys[n - 1]).filter(Boolean);
-  }
+  chosen = pickBuckets(raw, keys, (part) => say(`  ${C.y}ignoring "${part}"${C.off}`));
   if (!chosen.length) { say('\n  Nothing selected.\n'); process.exit(0); }
 }
 
@@ -251,9 +258,7 @@ if (has('--dry-run')) {
 
 if (!autoYes) {
   if (!isTTY) { console.error('\ncraftkit: pass --yes to run without a prompt.'); process.exit(2); }
-  const rl = createInterface({ input: process.stdin, output: process.stdout });
-  const ok = await rl.question(plain(`\n  ${C.c}Install all of this? [y/N]${C.off} `));
-  rl.close();
+  const ok = await ask(`\n  ${C.c}Install all of this? [y/N]${C.off} `);
   if (!/^y(es)?$/i.test(ok.trim())) { say('\n  Nothing installed.\n'); process.exit(0); }
 }
 

@@ -6,6 +6,7 @@
 // is a broken install on a machine I cannot test.
 import assert from 'node:assert/strict';
 import { resolveTarget, detectMusl } from './install-lean-ctx.mjs';
+import { pickBuckets } from './picks.mjs';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -99,6 +100,50 @@ test('dynamic imports use pathToFileURL', () => {
     .map((m) => m[1].trim())
     .filter((arg) => arg.startsWith('join(') || arg.startsWith('`') || arg.startsWith("'./"));
   assert.equal(raw.length, 0, `import() given a path rather than a URL: ${raw.join(', ')}`);
+});
+
+// Option 1 is Everything, so the buckets start at 2. Get that offset wrong and
+// the wizard installs the wrong set without erroring, which is the worst kind
+// of bug: it looks like it worked.
+console.log('\nmenu selection');
+const K = ['ui', 'writing', 'coding', 'resume', 'seo'];
+
+test('1 selects every bucket', () => {
+  assert.deepEqual(pickBuckets('1', K), K);
+});
+
+test('2 is the first bucket, not the second', () => {
+  assert.deepEqual(pickBuckets('2', K), ['ui']);
+});
+
+test('the last number maps to the last bucket', () => {
+  assert.deepEqual(pickBuckets(String(K.length + 1), K), ['seo']);
+});
+
+test('a list keeps menu order and dedupes', () => {
+  assert.deepEqual(pickBuckets('4,2,4', K), ['ui', 'coding']);
+});
+
+test('a range works', () => {
+  assert.deepEqual(pickBuckets('2-4', K), ['ui', 'writing', 'coding']);
+});
+
+test('1 anywhere in the list wins outright', () => {
+  assert.deepEqual(pickBuckets('3,1', K), K);
+});
+
+test('"all" still works for anyone who typed it before', () => {
+  assert.deepEqual(pickBuckets('all', K), K);
+});
+
+test('a number past the end selects nothing', () => {
+  assert.deepEqual(pickBuckets(String(K.length + 2), K), []);
+});
+
+test('garbage is reported, not silently dropped', () => {
+  const warned = [];
+  assert.deepEqual(pickBuckets('2,banana', K, (w) => warned.push(w)), ['ui']);
+  assert.deepEqual(warned, ['banana']);
 });
 
 console.log(`\n${pass} passed, ${fail} failed`);

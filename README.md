@@ -74,15 +74,16 @@ npx @alokraj68/craftkit
   What will you be doing on this machine?
   Pick any number of them.
 
-    1  🎨  UI / UX and frontend design
-    2  ✍️  Writing, docs and READMEs
-    3  💻  Coding
-    4  📄  Résumé and job search
-    5  🔍  SEO and content strategy
+    1  📦  Everything
+    2  🎨  UI / UX and frontend design
+    3  ✍️  Writing, docs and READMEs
+    4  💻  Coding
+    5  📄  Résumé and job search
+    6  🔍  SEO and content strategy
 
   Whatever you pick, caveman and lean-ctx are installed too.
 
-  Numbers (e.g. 1,3), "all", or blank to cancel:
+  Numbers (e.g. 2,4), or blank to cancel:
 ```
 
 It then enables the plugins by writing `settings.json`, clones the skills from
