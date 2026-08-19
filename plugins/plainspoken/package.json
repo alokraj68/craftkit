@@ -18,11 +18,12 @@
   "author": "Alok Rajasukumaran (https://alokraj68.in)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alokraj68/plainspoken.git"
+    "url": "git+https://github.com/alokraj68/craftkit.git",
+    "directory": "plugins/plainspoken"
   },
-  "homepage": "https://github.com/alokraj68/plainspoken#readme",
+  "homepage": "https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken#readme",
   "bugs": {
-    "url": "https://github.com/alokraj68/plainspoken/issues"
+    "url": "https://github.com/alokraj68/craftkit/issues"
   },
   "type": "module",
   "engines": {
