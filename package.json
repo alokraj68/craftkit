@@ -1,6 +1,6 @@
 {
   "name": "@alokraj68/craftkit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Set up Claude Code for what you actually do on this machine. Asks whether you are doing UI, writing, coding, resumes or SEO, then installs only those plugins and skills.",
   "keywords": [
     "claude-code",

@@ -1,6 +1,6 @@
 {
   "name": "@alokraj68/pagecheck",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Audit built pages for the defects a desktop review never sees: horizontal overflow, ragged lines, tiny text, small tap targets, and typography that fails WCAG AA.",
   "keywords": [
     "accessibility",
