@@ -150,26 +150,26 @@
       ],
       "what": "anti-slop frontend direction for landing pages and portfolios",
       "note": "ships in a directory called taste-skill but declares name: design-taste-frontend, so it installs under the declared name",
-      "licence": "check upstream",
+      "licence": "MIT",
       "commit": "dfb6f9f9e93a39f673b1827c0889cc28326d1800"
     },
     "emil-motion": {
       "kind": "skill",
       "repo": "emilkowalski/skills",
       "take": [
-        "animate",
-        "animation-vocabulary",
-        "apple-design",
-        "emil-design-eng",
-        "find-animation-opportunities",
-        "improve-animations",
-        "pick-ui-library",
-        "prototype",
-        "review-animations"
+        "skills/animate",
+        "skills/animation-vocabulary",
+        "skills/apple-design",
+        "skills/emil-design-eng",
+        "skills/find-animation-opportunities",
+        "skills/improve-animations",
+        "skills/pick-ui-library",
+        "skills/prototype",
+        "skills/review-animations"
       ],
       "what": "nine motion and UI-polish skills",
       "note": "pick-ui-library, prototype and review-animations set disable-model-invocation, so they never appear in the skills listing and run only when invoked by name",
-      "licence": "check upstream",
+      "licence": "MIT (c) Emil Kowalski",
       "commit": "e879241fab3cdb22e8d95587cdbf40b57a88d7da"
     },
     "karpathy-guidelines": {

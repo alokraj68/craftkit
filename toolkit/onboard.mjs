@@ -308,13 +308,23 @@ if (manual.length) {
   for (const id of manual) {
     const it = item(id);
     for (const step of it.steps) {
+      // A hardcoded /bin/bash does not exist on Windows, where every installer
+      // failed on a real run. Let the platform pick its own shell.
+      const isWindows = process.platform === 'win32';
+      if (isWindows && /\|\s*bash|curl -fsSL/.test(step)) {
+        say(`    ${C.y}$ ${step}${C.off}`);
+        say(`      ${C.y}skipped: this needs a POSIX shell. Run it in WSL or Git Bash.${C.off}`);
+        skipped.push(`${id}: needs bash, run it yourself`);
+        continue;
+      }
       say(`    ${C.y}$ ${step}${C.off}`);
       try {
-        execSync(step, { stdio: ['ignore', 'inherit', 'inherit'], shell: '/bin/bash' });
+        execSync(step, { stdio: ['ignore', 'inherit', 'inherit'], shell: true });
         done.push(`${id}: ${step.split(' ')[0]}`);
       } catch (err) {
-        say(`      ${C.r}failed (exit ${err.status ?? '?'})${C.off}`);
-        failed.push(`${id}: ${step}`);
+        const code = err.status ?? err.code ?? 'unknown';
+        say(`      ${C.r}failed (exit ${code})${C.off}`);
+        failed.push(`${id}: ${step} -> exit ${code}`);
         break; // later steps in a chain depend on the earlier ones
       }
     }
