@@ -90,5 +90,16 @@ test('handles EXDEV when moving the binary', () => {
   assert.ok(/copyFileSync/.test(inst), 'the fallback has to copy');
 });
 
+// import() takes a URL. Passing a joined path works on POSIX and throws
+// "Received protocol 'c:'" on Windows, which is the third variant of this same
+// bug: a path used where a URL was required.
+test('dynamic imports use pathToFileURL', () => {
+  const onboard = readFileSync(join(here, 'onboard.mjs'), 'utf8');
+  const raw = [...onboard.matchAll(/await import\(([^)]+)\)/g)]
+    .map((m) => m[1].trim())
+    .filter((arg) => arg.startsWith('join(') || arg.startsWith('`') || arg.startsWith("'./"));
+  assert.equal(raw.length, 0, `import() given a path rather than a URL: ${raw.join(', ')}`);
+});
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

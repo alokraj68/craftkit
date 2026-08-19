@@ -21,7 +21,7 @@ import {
 } from 'node:fs';
 import { tmpdir, homedir } from 'node:os';
 import { join, basename, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createInterface } from 'node:readline/promises';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -59,7 +59,7 @@ function printCatalogue() {
 // Not every harness is Claude Code. AGENTS.md is the convention Codex, Cursor,
 // opencode and Copilot read, and the CLIs never needed a harness at all.
 if (named[0] === 'agents') {
-  const mod = await import(join(here, 'gen-agents.mjs'));
+  const mod = await import(pathToFileURL(join(here, 'gen-agents.mjs')).href);
   if (has('--print')) { process.stdout.write(mod.renderAgentsMd()); process.exit(0); }
   const written = mod.writeAgents({ cursor: has('--cursor'), log: say });
   for (const w of written) say(`  wrote ${w.replace(process.cwd(), '.')}`);
@@ -325,7 +325,9 @@ if (manual.length) {
     if (it.runner) {
       say(`    ${C.b}${id}${C.off}`);
       try {
-        const mod = await import(join(here, it.runner));
+        // import() takes a URL, not a path. A Windows drive path is read as
+        // protocol 'c:' and rejected by the ESM loader.
+        const mod = await import(pathToFileURL(join(here, it.runner)).href);
         await mod.installLeanCtx({ log: say });
         done.push(id);
       } catch (err) {

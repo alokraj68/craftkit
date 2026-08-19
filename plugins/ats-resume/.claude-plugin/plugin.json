@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "ats-resume",
   "description": "Make sure a machine can read your resume, and know whether it matches the posting. Built on the JSON Resume schema.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": {
     "name": "Alok Rajasukumaran",
     "url": "https://alokraj68.in"

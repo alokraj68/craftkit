@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "craft-setup",
   "description": "The working agreement: verify before claiming done, never commit unasked, enforce rules in code, and keep checkers quiet enough to be believed.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": {
     "name": "Alok Rajasukumaran",
     "url": "https://alokraj68.in"
