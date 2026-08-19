@@ -232,7 +232,7 @@ the published SHA256, unpack it, and execute the binary.
 | 🐧 **Linux** x64 and ARM (glibc) | `ubuntu-latest`, install and run |
 | 🏔️ **Alpine** and musl | `node:22-alpine`, musl detection then install and run |
 | 🍎 **macOS** Apple silicon | `macos-latest`, install and run |
-| 🍏 **macOS** Intel | `macos-15-intel`, install and run |
+| 🍏 **macOS** Intel | **mapping only**, not executed - no Intel runner is schedulable on this account. `resolveTarget` is asserted for `darwin-x64` and the asset it names is confirmed to exist in the published release |
 
 That matrix exists because "works on my Mac" was wrong three times in a row. A
 real Windows run found the installer reporting success while installing nothing:

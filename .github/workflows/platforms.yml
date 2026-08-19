@@ -16,11 +16,11 @@ on:
 
 concurrency:
   group: platforms-${{ github.ref }}
-  # Not cancel-in-progress. The Intel macOS runner queues for minutes, so every
-  # push killed that job before it ever got a machine: structurally starved
-  # rather than slow. A superseded run finishing late costs nothing here; a job
-  # that can never finish tells you nothing at all.
-  cancel-in-progress: false
+  # Was false, to stop a slow Intel macOS job being cancelled before it got a
+  # machine. That job is gone, and the setting turned out to be a trap: a run
+  # that could never finish held the concurrency slot and blocked every push
+  # behind it. All four remaining runners schedule promptly.
+  cancel-in-progress: true
 
 jobs:
   install:
@@ -30,11 +30,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # macos-latest is Apple silicon; the -intel entry is what actually
-        # exercises the x64 branch of resolveTarget. It was macos-13 until that
-        # image was retired - the label stopped being served, so the job queued
-        # forever and no run of this workflow ever finished.
-        os: [ubuntu-latest, windows-latest, macos-latest, macos-15-intel]
+        # No Intel macOS entry. macos-13 was retired and its label stopped
+        # being served: the job queued forever and no run of this workflow ever
+        # completed. macos-15-intel is the current label and parses fine, but
+        # this account cannot schedule it - the run sits pending having created
+        # zero jobs, so it blocks the other four rather than adding a fifth.
+        # darwin-x64 is covered by the mapping test instead, which also
+        # confirms the asset it names exists in the published release. That is
+        # weaker than running it, and the README says so.
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
