@@ -1,6 +1,6 @@
 {
   "name": "@alokraj68/plainspoken",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Fail the build when writing reads as machine-written. A prose linter for AI fingerprints, filler and abstraction, with zero dependencies.",
   "keywords": [
     "ai-detection",

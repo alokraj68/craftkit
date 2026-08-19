@@ -16,7 +16,11 @@ on:
 
 concurrency:
   group: platforms-${{ github.ref }}
-  cancel-in-progress: true
+  # Not cancel-in-progress. The Intel macOS runner queues for minutes, so every
+  # push killed that job before it ever got a machine: structurally starved
+  # rather than slow. A superseded run finishing late costs nothing here; a job
+  # that can never finish tells you nothing at all.
+  cancel-in-progress: false
 
 jobs:
   install:
