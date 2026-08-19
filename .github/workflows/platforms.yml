@@ -1,0 +1,79 @@
+name: Platforms
+
+# The onboarder writes to a user's machine and downloads a platform binary, so
+# "works on my Mac" is not evidence. This runs the real installer on Windows,
+# Linux and macOS, plus Alpine for the musl path, because Node reports the same
+# linux-x64 there and a glibc binary fails at load time with a useless error.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'toolkit/**'
+      - '.github/workflows/platforms.yml'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: platforms-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  install:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest, macos-13]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Resolution and mapping
+        run: node toolkit/test-platforms.mjs
+
+      - name: The catalogue and the plan render
+        run: |
+          node toolkit/onboard.mjs --list
+          node toolkit/onboard.mjs --all --dry-run
+
+      # The part that actually touches the machine: resolve the release, verify
+      # the checksum, unpack, and confirm the binary runs.
+      - name: Install lean-ctx for real
+        run: node toolkit/install-lean-ctx.mjs
+
+      - name: The installed binary runs
+        shell: bash
+        run: |
+          BIN="$HOME/.local/bin/lean-ctx"
+          [ "${{ runner.os }}" = "Windows" ] && BIN="$HOME/.local/bin/lean-ctx.exe"
+          test -f "$BIN" || { echo "binary not found at $BIN"; exit 1; }
+          "$BIN" --version
+
+  alpine:
+    name: alpine (musl)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container: node:22-alpine
+    steps:
+      - uses: actions/checkout@v7
+
+      # Alpine reports linux-x64 like any other distribution. If detection is
+      # wrong this picks the glibc build and the binary will not start.
+      - name: musl is detected
+        run: |
+          apk add --no-cache tar >/dev/null
+          node -e "
+            const m = await import('./toolkit/install-lean-ctx.mjs');
+            if (!m.detectMusl()) { console.error('musl NOT detected on Alpine'); process.exit(1); }
+            console.log('resolved:', m.resolveTarget());
+          " --input-type=module
+
+      - name: Install and run on musl
+        run: |
+          node toolkit/install-lean-ctx.mjs
+          "$HOME/.local/bin/lean-ctx" --version

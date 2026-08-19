@@ -26,11 +26,40 @@ const TARGETS = {
   'darwin-x64': 'x86_64-apple-darwin.tar.gz',
   'linux-arm64': 'aarch64-unknown-linux-gnu.tar.gz',
   'linux-x64': 'x86_64-unknown-linux-gnu.tar.gz',
+  // Alpine and other musl distributions report plain linux-x64 to Node, but a
+  // glibc binary dies there with a loader error that names nothing useful.
+  'linux-arm64-musl': 'aarch64-unknown-linux-musl.tar.gz',
+  'linux-x64-musl': 'x86_64-unknown-linux-musl.tar.gz',
   'win32-x64': 'x86_64-pc-windows-msvc.zip',
+  // Windows on ARM runs x64 binaries under emulation, and no arm64 build is
+  // published, so this is the working choice rather than a failure.
+  'win32-arm64': 'x86_64-pc-windows-msvc.zip',
 };
 
+/**
+ * Which build this machine needs.
+ *
+ * Node reports the same linux-x64 on Alpine as on Debian. The difference shows
+ * in the process report: a glibc runtime version is present on glibc and
+ * missing on musl, which is the only reliable check without shelling out.
+ */
+export function resolveTarget(plat = platform(), cpu = arch(), musl = detectMusl(plat)) {
+  const base = `${plat}-${cpu}`;
+  if (plat === 'linux' && musl && TARGETS[`${base}-musl`]) return `${base}-musl`;
+  return base;
+}
+
+export function detectMusl(plat = platform()) {
+  if (plat !== 'linux') return false;
+  try {
+    return !process.report?.getReport?.()?.header?.glibcVersionRuntime;
+  } catch {
+    return false;
+  }
+}
+
 export async function installLeanCtx({ log = console.log } = {}) {
-  const key = `${platform()}-${arch()}`;
+  const key = resolveTarget();
   const suffix = TARGETS[key];
   if (!suffix) {
     throw new Error(`no lean-ctx build for ${key}. Supported: ${Object.keys(TARGETS).join(', ')}`);
@@ -66,7 +95,16 @@ export async function installLeanCtx({ log = console.log } = {}) {
     const archive = join(tmp, assetName);
     writeFileSync(archive, buf);
     // bsdtar ships with macOS, most Linux, and Windows 10+, and reads zip too.
-    execFileSync('tar', ['-xf', archive, '-C', tmp], { stdio: ['ignore', 'pipe', 'pipe'] });
+    try {
+      execFileSync('tar', ['-xf', archive, '-C', tmp], { stdio: ['ignore', 'pipe', 'pipe'] });
+    } catch (err) {
+      // Windows before 10/1803 has no bsdtar. PowerShell can unpack a zip.
+      if (platform() === 'win32' && archive.endsWith('.zip')) {
+        execFileSync('powershell', ['-NoProfile', '-Command',
+          `Expand-Archive -LiteralPath '${archive}' -DestinationPath '${tmp}' -Force`],
+          { stdio: ['ignore', 'pipe', 'pipe'] });
+      } else throw err;
+    }
 
     const binName = platform() === 'win32' ? 'lean-ctx.exe' : 'lean-ctx';
     const found = findBinary(tmp, binName);
