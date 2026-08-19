@@ -12,10 +12,11 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import {
   mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync,
-  existsSync, renameSync, chmodSync, readdirSync,
+  existsSync, renameSync, copyFileSync, unlinkSync, chmodSync, readdirSync,
 } from 'node:fs';
 import { tmpdir, homedir, platform, arch } from 'node:os';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const REPO = 'yvgude/lean-ctx';
 const INSTALL_DIR = join(homedir(), '.local', 'bin');
@@ -112,7 +113,15 @@ export async function installLeanCtx({ log = console.log } = {}) {
 
     mkdirSync(INSTALL_DIR, { recursive: true });
     const dest = join(INSTALL_DIR, binName);
-    renameSync(found, dest);
+    try {
+      renameSync(found, dest);
+    } catch (err) {
+      // EXDEV: the temp dir and the home dir are on different filesystems,
+      // which is normal inside a container. Copy instead of linking.
+      if (err.code !== 'EXDEV') throw err;
+      copyFileSync(found, dest);
+      unlinkSync(found);
+    }
     if (platform() !== 'win32') chmodSync(dest, 0o755);
     log(`      installed to ${dest.replace(homedir(), '~')}`);
     return dest;
@@ -134,7 +143,7 @@ function findBinary(dir, name, depth = 0) {
 }
 
 // Runnable on its own, and importable by the onboarder.
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   installLeanCtx().then(
     () => process.exit(0),
     (e) => { console.error('lean-ctx:', e.message); process.exit(1); },

@@ -70,5 +70,25 @@ for (const f of ['onboard.mjs', 'install-lean-ctx.mjs', 'release.mjs']) {
   });
 }
 
+console.log('\nregressions CI caught that a Mac never would');
+const inst = readFileSync(join(here, 'install-lean-ctx.mjs'), 'utf8');
+
+// On Windows process.argv[1] is D:\a\... while import.meta.url is a file://
+// URL, so a string comparison never matches. The installer ran no code at all
+// and exited 0, which reported success while installing nothing.
+test('main-module guard uses pathToFileURL', () => {
+  assert.ok(!/import\.meta\.url === `file:\/\/\$\{process\.argv\[1\]\}`/.test(inst),
+    'string-compared file:// guard never matches on Windows');
+  assert.ok(/pathToFileURL\(process\.argv\[1\]\)/.test(inst),
+    'guard must build the URL rather than concatenate one');
+});
+
+// renameSync cannot cross a filesystem boundary. In a container /tmp and $HOME
+// are usually separate mounts, which is EXDEV on Alpine.
+test('handles EXDEV when moving the binary', () => {
+  assert.ok(/EXDEV/.test(inst), 'no EXDEV fallback: rename fails across mounts');
+  assert.ok(/copyFileSync/.test(inst), 'the fallback has to copy');
+});
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
