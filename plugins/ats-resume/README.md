@@ -3,6 +3,16 @@
 Check that an applicant tracking system can actually read your résumé, and
 whether it matches the posting you are about to apply to.
 
+[![CI](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml/badge.svg)](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/%40alokraj68%2Fats-resume.svg?logo=npm&color=0b7285)](https://www.npmjs.com/package/@alokraj68/ats-resume)
+[![install size](https://packagephobia.com/badge?p=@alokraj68/ats-resume)](https://packagephobia.com/result?p=@alokraj68/ats-resume)
+[![tests](https://img.shields.io/badge/tests-37-2EA043.svg)](#testing)
+[![runtime deps](https://img.shields.io/badge/runtime%20deps-0-2EA043.svg)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Node >=18](https://img.shields.io/badge/Node-%3E%3D18-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
+[![JSON Resume](https://img.shields.io/badge/schema-JSON%20Resume-blue.svg)](https://jsonresume.org)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-D97757.svg)](https://github.com/alokraj68/craftkit)
+
 Zero dependencies. Built on the [JSON Resume](https://jsonresume.org) schema, so
 you bring a `resume.json` you may already have rather than learning another
 format.

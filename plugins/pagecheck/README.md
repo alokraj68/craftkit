@@ -2,6 +2,16 @@
 
 Audit built pages for the defects a desktop review never sees.
 
+[![CI](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml/badge.svg)](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/%40alokraj68%2Fpagecheck.svg?logo=npm&color=0b7285)](https://www.npmjs.com/package/@alokraj68/pagecheck)
+[![install size](https://packagephobia.com/badge?p=@alokraj68/pagecheck)](https://packagephobia.com/result?p=@alokraj68/pagecheck)
+[![tests](https://img.shields.io/badge/tests-21-2EA043.svg)](#testing)
+[![runtime deps](https://img.shields.io/badge/runtime%20deps-0-2EA043.svg)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Node >=18](https://img.shields.io/badge/Node-%3E%3D18-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
+[![peer: playwright](https://img.shields.io/badge/peer-playwright-2EAD33.svg?logo=playwright)](https://playwright.dev)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-D97757.svg)](https://github.com/alokraj68/craftkit)
+
 Renders every page at phone and desktop widths and reports horizontal overflow,
 ragged line endings, text too small to read, tap targets under 44px, and
 typography that misses WCAG AA.
