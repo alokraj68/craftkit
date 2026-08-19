@@ -128,6 +128,14 @@ as a Claude Code skill via the marketplace, and it is also in the npm tarball at
 /plugin install ats-resume@craftkit
 ```
 
+### Elsewhere
+
+- 🛡️ [`eslint-plugin-typeorm-enterprise`](https://www.npmjs.com/package/eslint-plugin-typeorm-enterprise) — the same
+  principle pointed at TypeORM: block raw SQL, require transactions, guard multi-tenant
+  queries. Not part of craftkit; it fails a build the same way.
+  [docs](https://github.com/alokraj68/eslint-plugin-typeorm-enterprise)
+- 🌐 [alokraj68.in](https://alokraj68.in) — who writes these, and what they were built for.
+
 ## Licence
 
 MIT

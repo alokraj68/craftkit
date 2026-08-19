@@ -376,6 +376,14 @@ Every rule carries a comment explaining why it survived. If you add one, say wha
 
 Curated third-party work belongs to its authors: [pbakaus/impeccable](https://github.com/pbakaus/impeccable), [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill), [emilkowalski/skills](https://github.com/emilkowalski/skills), [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills), [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo), [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill), [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail), [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman), [yvgude/lean-ctx](https://github.com/yvgude/lean-ctx).
 
+### Elsewhere
+
+- 🛡️ [`eslint-plugin-typeorm-enterprise`](https://www.npmjs.com/package/eslint-plugin-typeorm-enterprise) — the same
+  principle pointed at TypeORM: block raw SQL, require transactions, guard multi-tenant
+  queries. Not part of craftkit; it fails a build the same way.
+  [docs](https://github.com/alokraj68/eslint-plugin-typeorm-enterprise)
+- 🌐 [alokraj68.in](https://alokraj68.in) — who writes these, and what they were built for.
+
 ## 📄 License
 
 [MIT](./LICENSE) © [Alok Rajasukumaran](https://alokraj68.in)
