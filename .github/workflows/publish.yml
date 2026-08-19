@@ -14,7 +14,28 @@ permissions:
   id-token: write
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - run: node plugins/plainspoken/test/run.mjs
+      - run: node plugins/ats-resume/test/run.mjs
+
+      # pagecheck skips its 11 browser tests silently without Playwright, so a
+      # green 10 is not a green 21. Installed once here rather than in every
+      # matrix job: four parallel apt-get runs fight over the same lock.
+      - name: pagecheck (with a browser)
+        run: |
+          npm i --no-save playwright
+          npx playwright install --with-deps chromium
+          node plugins/pagecheck/test/run.mjs
+
   publish:
+    needs: test
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -32,16 +53,6 @@ jobs:
       # Trusted Publishing (OIDC) requires npm >= 11.5.1
       - name: Upgrade npm
         run: npm install -g npm@latest
-
-      - name: Test
-        run: |
-          node plugins/plainspoken/test/run.mjs
-          node plugins/ats-resume/test/run.mjs
-          # pagecheck skips its 11 browser tests silently without Playwright.
-          # Publishing on a green 10 would mean shipping half a verified suite.
-          npm i --no-save playwright
-          npx playwright install --with-deps chromium
-          node plugins/pagecheck/test/run.mjs
 
       - name: Verify package contents
         working-directory: ${{ matrix.pkg }}
