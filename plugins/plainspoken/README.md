@@ -151,9 +151,6 @@ import { lint } from 'plainspoken';
 const { findings, stats } = lint(markdown, { preset: 'resume' });
 ```
 
-## The curated toolkit
-
-Lives at the repo root: see [craftkit](https://github.com/alokraj68/craftkit).
 
 ## Credits
 
@@ -163,6 +160,33 @@ Seven prose patterns are distilled from the `deslop` skill in
 [every-app/open-seo](https://github.com/every-app/open-seo) — the seven that
 survived the false-positive filter described above. The rest of that catalogue
 is deliberately not imported.
+
+## 🧰 Part of craftkit
+
+One of four tools in [craftkit](https://github.com/alokraj68/craftkit). Set all of
+them up at once, picking only what you need:
+
+```bash
+npx craftkit
+```
+
+| | | |
+|---|---|---|
+| ✍️ **`plainspoken`** | you are here | prose that does not read as machine-written |
+| 📱 [`pagecheck`](https://www.npmjs.com/package/pagecheck) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
+| 📄 [`ats-resume`](https://www.npmjs.com/package/ats-resume) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume) | a résumé an applicant tracking system can parse, and JD gap analysis |
+| 🧭 [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup) | skill only | verify before claiming done; never commit unasked |
+
+### The skill ships with this package
+
+`skills/plain-writing/SKILL.md` is the judgement half: the calls a linter cannot make. It installs
+as a Claude Code skill via the marketplace, and it is also in the npm tarball at
+`node_modules/plainspoken/skills/plain-writing/SKILL.md`, so an agent can read it without the marketplace.
+
+```
+/plugin marketplace add alokraj68/craftkit
+/plugin install plainspoken@craftkit
+```
 
 ## Licence
 

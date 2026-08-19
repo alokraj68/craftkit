@@ -113,11 +113,33 @@ the judgement half is a pure function, so it unit-tests without a browser.
 and stay silent on one that is well formed. Without Playwright installed, the 11
 browser tests **skip silently** rather than fail, so read the count.
 
-## Part of craftkit
 
-One of four plugins in [craftkit](https://github.com/alokraj68/craftkit). The
-`page-audit` skill carries the judgement a linter cannot: how to read the
-output, and the layout defects worth knowing before you hit them.
+## 🧰 Part of craftkit
+
+One of four tools in [craftkit](https://github.com/alokraj68/craftkit). Set all of
+them up at once, picking only what you need:
+
+```bash
+npx craftkit
+```
+
+| | | |
+|---|---|---|
+| ✍️ [`plainspoken`](https://www.npmjs.com/package/plainspoken) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken) | prose that does not read as machine-written |
+| 📱 **`pagecheck`** | you are here | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
+| 📄 [`ats-resume`](https://www.npmjs.com/package/ats-resume) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume) | a résumé an applicant tracking system can parse, and JD gap analysis |
+| 🧭 [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup) | skill only | verify before claiming done; never commit unasked |
+
+### The skill ships with this package
+
+`skills/page-audit/SKILL.md` is the judgement half: the calls a linter cannot make. It installs
+as a Claude Code skill via the marketplace, and it is also in the npm tarball at
+`node_modules/pagecheck/skills/page-audit/SKILL.md`, so an agent can read it without the marketplace.
+
+```
+/plugin marketplace add alokraj68/craftkit
+/plugin install pagecheck@craftkit
+```
 
 ## Licence
 

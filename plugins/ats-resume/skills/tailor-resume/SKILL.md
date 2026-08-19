@@ -122,3 +122,16 @@ Source and rendered output disagree more often than seems possible. Separator
 characters that exist in the markup can vanish from a PDF's text layer, leaving
 a contact line that no parser can split — and only reading the extraction finds
 it.
+
+## Related skills
+
+Part of [craftkit](https://github.com/alokraj68/craftkit). Reach for these when
+the task moves outside this one:
+
+| Skill | Tool | For |
+|---|---|---|
+| [`plain-writing`](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken/skills/plain-writing) | `npx plainspoken` | prose that does not read as machine-written |
+| [`page-audit`](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck/skills/page-audit) | `npx pagecheck` | layout and typography: overflow, tiny text, tap targets, contrast |
+| [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup/skills/craft-setup) | skill only | the working agreement: verify before claiming done |
+
+Install any of them, or all four, with `npx craftkit`.

@@ -129,6 +129,8 @@ npm i -D ats-resume
 
 ### ✍️ plainspoken
 
+[npm](https://www.npmjs.com/package/plainspoken) · [docs](./plugins/plainspoken) · [skill](./plugins/plainspoken/skills/plain-writing/SKILL.md)
+
 Reads Markdown and plain text, so it works on docs, READMEs, release notes, landing copy and CVs alike.
 
 ```bash
@@ -153,6 +155,8 @@ docs/architecture.md
 
 ### 📱 pagecheck
 
+[npm](https://www.npmjs.com/package/pagecheck) · [docs](./plugins/pagecheck) · [skill](./plugins/pagecheck/skills/page-audit/SKILL.md)
+
 ```bash
 node plugins/pagecheck/bin/pagecheck.mjs ./dist
 node plugins/pagecheck/bin/pagecheck.mjs https://example.com
@@ -168,6 +172,8 @@ Three false positives had to die before its numbers meant anything:
 
 ### 📄 ats-resume
 
+[npm](https://www.npmjs.com/package/ats-resume) · [docs](./plugins/ats-resume) · [skill](./plugins/ats-resume/skills/tailor-resume/SKILL.md)
+
 ```bash
 node plugins/ats-resume/bin/ats-resume.mjs lint resume.json
 node plugins/ats-resume/bin/ats-resume.mjs tailor resume.json posting.txt
@@ -180,6 +186,8 @@ Two passes, because they catch different things. The **source pass** reads `resu
 Tailoring filters job-description terms to what the posting **names**: a word capitalised mid-sentence is nearly always a technology, while "heavily" and "expected" never are. On a sample posting that dropped eleven noise terms and moved the reported match from 42% to 60%.
 
 ### 🧭 craft-setup
+
+[docs](./plugins/craft-setup) · [skill](./plugins/craft-setup/skills/craft-setup/SKILL.md) · not on npm, no code to ship
 
 Skill only, no code. What an agent does before it says a thing is done: run the typecheck, run the linter on every file it touched, run the build once, and **name what it could not verify** instead of implying it did.
 
@@ -239,6 +247,9 @@ Two design rules run through all of it:
 ## 🤖 For AI coding agents
 
 Every plugin ships a `SKILL.md` that is the agent-facing spec: the judgement a regex cannot encode, written to be read rather than parsed.
+
+Every one also ships **inside its npm tarball**, so an agent can read it from
+`node_modules/<pkg>/skills/` without ever touching the marketplace.
 
 | Skill | Covers |
 |---|---|

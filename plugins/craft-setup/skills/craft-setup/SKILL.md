@@ -152,8 +152,15 @@ next person does not "fix" something that was deliberate.
 A fact typed twice is a fact that will disagree with itself. Content, config and
 constants get one home, and every output derives from it.
 
-## Writing
+## Related skills
 
-For anything a human reads — docs, commits, PR descriptions, UI copy — see the
-`plain-writing` skill. Short version: name things concretely, and never let
-tidier wording quietly change what is true.
+Part of [craftkit](https://github.com/alokraj68/craftkit). Reach for these when
+the task moves outside this one:
+
+| Skill | Tool | For |
+|---|---|---|
+| [`plain-writing`](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken/skills/plain-writing) | `npx plainspoken` | prose that does not read as machine-written |
+| [`page-audit`](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck/skills/page-audit) | `npx pagecheck` | layout and typography: overflow, tiny text, tap targets, contrast |
+| [`tailor-resume`](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume/skills/tailor-resume) | `npx ats-resume` | résumé parseability and job-description matching |
+
+Install any of them, or all four, with `npx craftkit`.

@@ -112,3 +112,16 @@ Banned words include "responsible for" and "team player".
 
 A suppression with a reason is documentation. A suppression without one is a
 checker being switched off.
+
+## Related skills
+
+Part of [craftkit](https://github.com/alokraj68/craftkit). Reach for these when
+the task moves outside this one:
+
+| Skill | Tool | For |
+|---|---|---|
+| [`page-audit`](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck/skills/page-audit) | `npx pagecheck` | layout and typography: overflow, tiny text, tap targets, contrast |
+| [`tailor-resume`](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume/skills/tailor-resume) | `npx ats-resume` | résumé parseability and job-description matching |
+| [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup/skills/craft-setup) | skill only | the working agreement: verify before claiming done |
+
+Install any of them, or all four, with `npx craftkit`.

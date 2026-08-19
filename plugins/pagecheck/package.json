@@ -34,7 +34,8 @@
     "bin",
     "src",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "skills"
   ],
   "peerDependencies": {
     "playwright": ">=1.40"

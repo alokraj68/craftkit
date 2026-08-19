@@ -85,3 +85,16 @@ not to switch it off — a checker nobody trusts catches nothing.
 Re-run the audit and show the output. A layout change that was not re-measured
 has not been verified, and this is the exact area where a desktop review reads
 as fine while the phone is broken.
+
+## Related skills
+
+Part of [craftkit](https://github.com/alokraj68/craftkit). Reach for these when
+the task moves outside this one:
+
+| Skill | Tool | For |
+|---|---|---|
+| [`plain-writing`](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken/skills/plain-writing) | `npx plainspoken` | prose that does not read as machine-written |
+| [`tailor-resume`](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume/skills/tailor-resume) | `npx ats-resume` | résumé parseability and job-description matching |
+| [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup/skills/craft-setup) | skill only | the working agreement: verify before claiming done |
+
+Install any of them, or all four, with `npx craftkit`.

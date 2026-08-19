@@ -91,6 +91,33 @@ parsing **and** stay silent on one that is simply well formed.
 node test/run.mjs
 ```
 
+## 🧰 Part of craftkit
+
+One of four tools in [craftkit](https://github.com/alokraj68/craftkit). Set all of
+them up at once, picking only what you need:
+
+```bash
+npx craftkit
+```
+
+| | | |
+|---|---|---|
+| ✍️ [`plainspoken`](https://www.npmjs.com/package/plainspoken) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken) | prose that does not read as machine-written |
+| 📱 [`pagecheck`](https://www.npmjs.com/package/pagecheck) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
+| 📄 **`ats-resume`** | you are here | a résumé an applicant tracking system can parse, and JD gap analysis |
+| 🧭 [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup) | skill only | verify before claiming done; never commit unasked |
+
+### The skill ships with this package
+
+`skills/tailor-resume/SKILL.md` is the judgement half: the calls a linter cannot make. It installs
+as a Claude Code skill via the marketplace, and it is also in the npm tarball at
+`node_modules/ats-resume/skills/tailor-resume/SKILL.md`, so an agent can read it without the marketplace.
+
+```
+/plugin marketplace add alokraj68/craftkit
+/plugin install ats-resume@craftkit
+```
+
 ## Licence
 
 MIT
