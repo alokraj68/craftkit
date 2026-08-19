@@ -82,17 +82,17 @@
       "licence": "check upstream"
     },
     "lean-ctx": {
-      "kind": "manual",
+      "kind": "installer",
       "repo": "yvgude/lean-ctx",
       "what": "context runtime: compressed reads, searches and shell output",
-      "why_manual": "installs by piping a remote script into bash, and configures a global MCP server. That is your decision to make, not a script's.",
       "steps": [
-        "curl -fsSL https://raw.githubusercontent.com/yvgude/lean-ctx/607a9c735745c2e00fddb8cd115986e06d4fd34d/skills/lean-ctx/scripts/install.sh | bash",
         "lean-ctx init --global",
         "lean-ctx doctor --fix"
       ],
       "licence": "check upstream",
-      "commit": "607a9c735745c2e00fddb8cd115986e06d4fd34d"
+      "commit": "607a9c735745c2e00fddb8cd115986e06d4fd34d",
+      "runner": "install-lean-ctx.mjs",
+      "note": "Ships as a platform binary, not an npm package. The upstream installer is a shell script, so craftkit resolves the release, verifies the published SHA256 and unpacks it - which works on Windows and checks what it downloaded."
     },
     "frontend-design": {
       "kind": "plugin",

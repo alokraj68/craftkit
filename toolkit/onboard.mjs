@@ -142,7 +142,7 @@ if (!chosen.length) {
 const wanted = [...new Set([...cat.always, ...chosen.flatMap((k) => cat.buckets[k].items)])];
 const plugins = wanted.filter((id) => ['plugin', 'craftkit'].includes(item(id).kind));
 const skills = wanted.filter((id) => item(id).kind === 'skill');
-const manual = wanted.filter((id) => item(id).kind === 'manual');
+const manual = wanted.filter((id) => ['manual', 'installer'].includes(item(id).kind));
 
 const scope = has('--project') ? 'project' : 'user';
 const settingsPath = scope === 'project'
@@ -307,6 +307,21 @@ if (manual.length) {
   say(`\n${C.b}  Installers${C.off}`);
   for (const id of manual) {
     const it = item(id);
+    // Some tools ship a binary rather than an npm package. craftkit carries a
+    // Node installer for those, so nothing has to pipe a remote script into a
+    // shell that may not exist on this machine.
+    if (it.runner) {
+      say(`    ${C.b}${id}${C.off}`);
+      try {
+        const mod = await import(join(here, it.runner));
+        await mod.installLeanCtx({ log: say });
+        done.push(id);
+      } catch (err) {
+        say(`      ${C.r}failed: ${err.message}${C.off}`);
+        failed.push(`${id}: ${err.message}`);
+        continue; // the follow-up steps need the binary
+      }
+    }
     for (const step of it.steps) {
       // A hardcoded /bin/bash does not exist on Windows, where every installer
       // failed on a real run. Let the platform pick its own shell.
