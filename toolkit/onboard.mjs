@@ -35,11 +35,54 @@ const named = args.filter((a) => !a.startsWith('-'));
 const autoYes = has('--yes') || has('-y');
 
 const isTTY = process.stdin.isTTY && process.stdout.isTTY;
+
+/**
+ * Can this console render the emoji and typographic characters in the menu?
+ *
+ * Windows Terminal and VS Code handle them. Classic cmd.exe defaults to code
+ * page 437, where every one of them becomes mojibake: the tool still works, but
+ * the menu you have to read to use it does not. Rather than guess from the
+ * terminal name, ask the console what code page it is on - 65001 is UTF-8.
+ */
+function supportsUnicode() {
+  if (process.platform !== 'win32') return true;
+  if (process.env.WT_SESSION || process.env.TERM_PROGRAM) return true; // Windows Terminal, VS Code
+  try {
+    const out = execSync('chcp', { stdio: ['ignore', 'pipe', 'ignore'], shell: true }).toString();
+    return /65001/.test(out);
+  } catch {
+    return false;
+  }
+}
+
+const UNICODE = process.env.CRAFTKIT_ASCII ? false : supportsUnicode();
+
+// Emoji carry no information here, so dropping them costs nothing. The
+// typographic characters have plain equivalents, and an accent that renders as
+// a question mark is worse than the unaccented word.
+const ASCII_MAP = [
+  // Two spaces, not nothing: an emoji occupies about that much, and dropping
+  // it outright shifts every column left of it.
+  [/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '  '],
+  [/\u{FE0F}/gu, ''],
+  [/\u2026/g, '...'],
+  [/\u00b7/g, '-'],
+  [/\u2192/g, '->'],
+  [/é/g, 'e'],
+];
+
+/** Everything printed goes through here, so nothing bypasses the fallback. */
+function plain(text) {
+  if (UNICODE) return text;
+  let out = String(text);
+  for (const [re, to] of ASCII_MAP) out = out.replace(re, to);
+  return out;
+}
 const C = process.stdout.isTTY
   ? { b: '\x1b[1m', dim: '\x1b[2m', g: '\x1b[32m', y: '\x1b[33m', r: '\x1b[31m', c: '\x1b[36m', off: '\x1b[0m' }
   : { b: '', dim: '', g: '', y: '', r: '', c: '', off: '' };
 
-const say = (s = '') => console.log(s);
+const say = (s = '') => console.log(plain(s));
 const item = (id) => cat.items[id];
 
 // ---------------------------------------------------------------- catalogue
@@ -132,7 +175,7 @@ if (!chosen.length) {
   });
   say(`\n  ${C.dim}Whatever you pick, ${cat.always.join(' and ')} are installed too.${C.off}`);
   const rl = createInterface({ input: process.stdin, output: process.stdout });
-  const answer = await rl.question(`\n  ${C.c}Numbers (e.g. 1,3), "all", or blank to cancel:${C.off} `);
+  const answer = await rl.question(plain(`\n  ${C.c}Numbers (e.g. 1,3), "all", or blank to cancel:${C.off} `));
   rl.close();
   const raw = answer.trim().toLowerCase();
   if (!raw) { say('\n  Nothing installed.\n'); process.exit(0); }
@@ -209,7 +252,7 @@ if (has('--dry-run')) {
 if (!autoYes) {
   if (!isTTY) { console.error('\ncraftkit: pass --yes to run without a prompt.'); process.exit(2); }
   const rl = createInterface({ input: process.stdin, output: process.stdout });
-  const ok = await rl.question(`\n  ${C.c}Install all of this? [y/N]${C.off} `);
+  const ok = await rl.question(plain(`\n  ${C.c}Install all of this? [y/N]${C.off} `));
   rl.close();
   if (!/^y(es)?$/i.test(ok.trim())) { say('\n  Nothing installed.\n'); process.exit(0); }
 }
@@ -262,7 +305,7 @@ if (skills.length) {
     const tmp = mkdtempSync(join(tmpdir(), 'craftkit-'));
     const pin = has('--latest') ? null : it.commit;
     try {
-      process.stdout.write(`    ${id} ${C.dim}fetching ${it.repo}${pin ? `@${pin.slice(0, 8)}` : ' (latest)'}…${C.off}`);
+      process.stdout.write(plain(`    ${id} ${C.dim}fetching ${it.repo}${pin ? `@${pin.slice(0, 8)}` : ' (latest)'}…${C.off}`));
       const url = `https://github.com/${it.repo}.git`;
       if (pin) {
         // Fetch the one commit rather than cloning history. GitHub serves a
