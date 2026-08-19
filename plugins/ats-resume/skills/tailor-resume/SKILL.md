@@ -130,8 +130,8 @@ the task moves outside this one:
 
 | Skill | Tool | For |
 |---|---|---|
-| [`plain-writing`](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken/skills/plain-writing) | `npx plainspoken` | prose that does not read as machine-written |
-| [`page-audit`](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck/skills/page-audit) | `npx pagecheck` | layout and typography: overflow, tiny text, tap targets, contrast |
+| [`plain-writing`](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken/skills/plain-writing) | `npx @alokraj68/plainspoken` | prose that does not read as machine-written |
+| [`page-audit`](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck/skills/page-audit) | `npx @alokraj68/pagecheck` | layout and typography: overflow, tiny text, tap targets, contrast |
 | [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup/skills/craft-setup) | skill only | the working agreement: verify before claiming done |
 
-Install any of them, or all four, with `npx craftkit`.
+Install any of them, or all four, with `npx @alokraj68/craftkit`.

@@ -1,5 +1,5 @@
 {
-  "name": "ats-resume",
+  "name": "@alokraj68/ats-resume",
   "version": "1.0.0",
   "description": "Check that an applicant tracking system can actually parse your resume, and match it against a job description. Zero dependencies, built on the JSON Resume schema.",
   "keywords": [

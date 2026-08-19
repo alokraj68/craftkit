@@ -7,7 +7,7 @@ skill. It reads Markdown and plain text, not a schema, so it works on docs,
 READMEs, release notes, landing copy and CVs alike.
 
 ```
-npx plainspoken docs/
+npx @alokraj68/plainspoken docs/
 ```
 
 ```
@@ -80,9 +80,9 @@ are never linted, and line numbers still point at the original file.
 ## Presets
 
 ```
-npx plainspoken docs/                    # docs (default) - ratios advise
-npx plainspoken cv.md --preset resume    # ratios become gates
-npx plainspoken . --preset strict        # everything fails
+npx @alokraj68/plainspoken docs/                    # docs (default) - ratios advise
+npx @alokraj68/plainspoken cv.md --preset resume    # ratios become gates
+npx @alokraj68/plainspoken . --preset strict        # everything fails
 ```
 
 `docs` is deliberately forgiving: a short, factual README legitimately trips
@@ -137,7 +137,7 @@ never facts.
 ## In CI
 
 ```yaml
-- run: npx plainspoken docs/ README.md
+- run: npx @alokraj68/plainspoken docs/ README.md
 ```
 
 Exit code is 1 on any error, 0 otherwise. `--warnings-as-errors` tightens that,
@@ -146,7 +146,7 @@ and `--json` gives machine-readable output.
 ## As a library
 
 ```js
-import { lint } from 'plainspoken';
+import { lint } from '@alokraj68/plainspoken';
 
 const { findings, stats } = lint(markdown, { preset: 'resume' });
 ```
@@ -167,21 +167,21 @@ One of four tools in [craftkit](https://github.com/alokraj68/craftkit). Set all 
 them up at once, picking only what you need:
 
 ```bash
-npx craftkit
+npx @alokraj68/craftkit
 ```
 
 | | | |
 |---|---|---|
 | ✍️ **`plainspoken`** | you are here | prose that does not read as machine-written |
-| 📱 [`pagecheck`](https://www.npmjs.com/package/pagecheck) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
-| 📄 [`ats-resume`](https://www.npmjs.com/package/ats-resume) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume) | a résumé an applicant tracking system can parse, and JD gap analysis |
+| 📱 [`pagecheck`](https://www.npmjs.com/package/@alokraj68/pagecheck) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
+| 📄 [`ats-resume`](https://www.npmjs.com/package/@alokraj68/ats-resume) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume) | a résumé an applicant tracking system can parse, and JD gap analysis |
 | 🧭 [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup) | skill only | verify before claiming done; never commit unasked |
 
 ### The skill ships with this package
 
 `skills/plain-writing/SKILL.md` is the judgement half: the calls a linter cannot make. It installs
 as a Claude Code skill via the marketplace, and it is also in the npm tarball at
-`node_modules/plainspoken/skills/plain-writing/SKILL.md`, so an agent can read it without the marketplace.
+`node_modules/@alokraj68/plainspoken/skills/plain-writing/SKILL.md`, so an agent can read it without the marketplace.
 
 ```
 /plugin marketplace add alokraj68/craftkit

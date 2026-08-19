@@ -8,8 +8,8 @@ you bring a `resume.json` you may already have rather than learning another
 format.
 
 ```
-npx ats-resume lint resume.json
-npx ats-resume tailor resume.json posting.txt
+npx @alokraj68/ats-resume lint resume.json
+npx @alokraj68/ats-resume tailor resume.json posting.txt
 ```
 
 ## This is not a writing checker
@@ -36,7 +36,7 @@ machine can parse the file at all. The two are deliberately separate tools.
 
 ```
 pdftotext -layout Sam-Rivera-Resume.pdf out.txt
-npx ats-resume lint out.txt
+npx @alokraj68/ats-resume lint out.txt
 ```
 
 - Is there a text layer at all? An image-only PDF scores zero everywhere.
@@ -56,7 +56,7 @@ made an earlier version fire on ordinary subject words. Real stuffing sits at
 ## Tailoring
 
 ```
-$ npx ats-resume tailor resume.json posting.txt
+$ npx @alokraj68/ats-resume tailor resume.json posting.txt
 
 match rate  60%  (marginal)
 
@@ -97,13 +97,13 @@ One of four tools in [craftkit](https://github.com/alokraj68/craftkit). Set all 
 them up at once, picking only what you need:
 
 ```bash
-npx craftkit
+npx @alokraj68/craftkit
 ```
 
 | | | |
 |---|---|---|
-| ✍️ [`plainspoken`](https://www.npmjs.com/package/plainspoken) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken) | prose that does not read as machine-written |
-| 📱 [`pagecheck`](https://www.npmjs.com/package/pagecheck) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
+| ✍️ [`plainspoken`](https://www.npmjs.com/package/@alokraj68/plainspoken) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken) | prose that does not read as machine-written |
+| 📱 [`pagecheck`](https://www.npmjs.com/package/@alokraj68/pagecheck) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
 | 📄 **`ats-resume`** | you are here | a résumé an applicant tracking system can parse, and JD gap analysis |
 | 🧭 [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup) | skill only | verify before claiming done; never commit unasked |
 
@@ -111,7 +111,7 @@ npx craftkit
 
 `skills/tailor-resume/SKILL.md` is the judgement half: the calls a linter cannot make. It installs
 as a Claude Code skill via the marketplace, and it is also in the npm tarball at
-`node_modules/ats-resume/skills/tailor-resume/SKILL.md`, so an agent can read it without the marketplace.
+`node_modules/@alokraj68/ats-resume/skills/tailor-resume/SKILL.md`, so an agent can read it without the marketplace.
 
 ```
 /plugin marketplace add alokraj68/craftkit

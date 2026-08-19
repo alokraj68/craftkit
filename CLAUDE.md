@@ -35,7 +35,7 @@ craftkit/
       test/run.mjs                  37 tests
   toolkit/
     catalogue.json                  the curated set, grouped by what you do
-    onboard.mjs                     `npx craftkit` - the onboarding wizard
+    onboard.mjs                     `npx @alokraj68/craftkit` - the onboarding wizard
 ```
 
 ---

@@ -7,8 +7,8 @@ ragged line endings, text too small to read, tap targets under 44px, and
 typography that misses WCAG AA.
 
 ```bash
-npx pagecheck ./dist
-npx pagecheck https://example.com
+npx @alokraj68/pagecheck ./dist
+npx @alokraj68/pagecheck https://example.com
 ```
 
 ```
@@ -27,7 +27,7 @@ npx pagecheck https://example.com
 ## Install
 
 ```bash
-npm i -D pagecheck playwright
+npm i -D @alokraj68/pagecheck playwright
 npx playwright install chromium
 ```
 
@@ -93,7 +93,7 @@ The rest are reported and left to judgement.
 
 ```yaml
 - run: npm run build
-- run: npx pagecheck ./dist
+- run: npx @alokraj68/pagecheck ./dist
 ```
 
 Exit code is 1 when a `failOn` category has findings, 0 otherwise.
@@ -101,7 +101,7 @@ Exit code is 1 when a `failOn` category has findings, 0 otherwise.
 ## As a library
 
 ```js
-import { typeIssues, DEFAULTS } from 'pagecheck';
+import { typeIssues, DEFAULTS } from '@alokraj68/pagecheck';
 ```
 
 The in-page audits are exported as string expressions for `page.evaluate()`;
@@ -120,21 +120,21 @@ One of four tools in [craftkit](https://github.com/alokraj68/craftkit). Set all 
 them up at once, picking only what you need:
 
 ```bash
-npx craftkit
+npx @alokraj68/craftkit
 ```
 
 | | | |
 |---|---|---|
-| ✍️ [`plainspoken`](https://www.npmjs.com/package/plainspoken) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken) | prose that does not read as machine-written |
+| ✍️ [`plainspoken`](https://www.npmjs.com/package/@alokraj68/plainspoken) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken) | prose that does not read as machine-written |
 | 📱 **`pagecheck`** | you are here | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
-| 📄 [`ats-resume`](https://www.npmjs.com/package/ats-resume) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume) | a résumé an applicant tracking system can parse, and JD gap analysis |
+| 📄 [`ats-resume`](https://www.npmjs.com/package/@alokraj68/ats-resume) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume) | a résumé an applicant tracking system can parse, and JD gap analysis |
 | 🧭 [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup) | skill only | verify before claiming done; never commit unasked |
 
 ### The skill ships with this package
 
 `skills/page-audit/SKILL.md` is the judgement half: the calls a linter cannot make. It installs
 as a Claude Code skill via the marketplace, and it is also in the npm tarball at
-`node_modules/pagecheck/skills/page-audit/SKILL.md`, so an agent can read it without the marketplace.
+`node_modules/@alokraj68/pagecheck/skills/page-audit/SKILL.md`, so an agent can read it without the marketplace.
 
 ```
 /plugin marketplace add alokraj68/craftkit

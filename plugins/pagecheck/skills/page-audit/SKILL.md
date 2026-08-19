@@ -9,10 +9,10 @@ Run the measurement, then read the result. Do not eyeball a layout and call it
 checked.
 
 ```
-npx pagecheck ./dist            # serve a build and audit every page
-npx pagecheck https://site.com  # audit a live URL
-npx pagecheck ./dist --layout-only
-npx pagecheck ./dist --fail-on overflow,tiny
+npx @alokraj68/pagecheck ./dist            # serve a build and audit every page
+npx @alokraj68/pagecheck https://site.com  # audit a live URL
+npx @alokraj68/pagecheck ./dist --layout-only
+npx @alokraj68/pagecheck ./dist --fail-on overflow,tiny
 ```
 
 Requires Playwright (`npm i -D playwright && npx playwright install chromium`).
@@ -93,8 +93,8 @@ the task moves outside this one:
 
 | Skill | Tool | For |
 |---|---|---|
-| [`plain-writing`](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken/skills/plain-writing) | `npx plainspoken` | prose that does not read as machine-written |
-| [`tailor-resume`](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume/skills/tailor-resume) | `npx ats-resume` | résumé parseability and job-description matching |
+| [`plain-writing`](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken/skills/plain-writing) | `npx @alokraj68/plainspoken` | prose that does not read as machine-written |
+| [`tailor-resume`](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume/skills/tailor-resume) | `npx @alokraj68/ats-resume` | résumé parseability and job-description matching |
 | [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup/skills/craft-setup) | skill only | the working agreement: verify before claiming done |
 
-Install any of them, or all four, with `npx craftkit`.
+Install any of them, or all four, with `npx @alokraj68/craftkit`.

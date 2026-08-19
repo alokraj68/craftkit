@@ -159,8 +159,8 @@ the task moves outside this one:
 
 | Skill | Tool | For |
 |---|---|---|
-| [`plain-writing`](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken/skills/plain-writing) | `npx plainspoken` | prose that does not read as machine-written |
-| [`page-audit`](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck/skills/page-audit) | `npx pagecheck` | layout and typography: overflow, tiny text, tap targets, contrast |
-| [`tailor-resume`](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume/skills/tailor-resume) | `npx ats-resume` | résumé parseability and job-description matching |
+| [`plain-writing`](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken/skills/plain-writing) | `npx @alokraj68/plainspoken` | prose that does not read as machine-written |
+| [`page-audit`](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck/skills/page-audit) | `npx @alokraj68/pagecheck` | layout and typography: overflow, tiny text, tap targets, contrast |
+| [`tailor-resume`](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume/skills/tailor-resume) | `npx @alokraj68/ats-resume` | résumé parseability and job-description matching |
 
-Install any of them, or all four, with `npx craftkit`.
+Install any of them, or all four, with `npx @alokraj68/craftkit`.

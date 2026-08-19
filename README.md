@@ -15,7 +15,7 @@ Four Claude Code plugins that turn "looks fine to me" into a build that fails. P
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin%20marketplace-D97757.svg)](https://claude.com/claude-code)
 
 ```
-npx craftkit
+npx @alokraj68/craftkit
 ```
 
 </div>
@@ -62,7 +62,7 @@ So every rule here had to clear two bars, not one. **Fire on writing built to tr
 One command. It asks what you do on this machine, then installs only that.
 
 ```bash
-npx craftkit
+npx @alokraj68/craftkit
 ```
 
 ```
@@ -93,11 +93,11 @@ their own upstreams, and runs the two installers that cannot be a plain copy.
 | ⚙️ **always** | caveman, lean-ctx |
 
 ```bash
-npx craftkit --list          # the whole catalogue, install nothing
-npx craftkit ui coding       # skip the question
-npx craftkit ui --dry-run    # show exactly what would happen
-npx craftkit --all --yes     # everything, no prompts
-npx craftkit writing --project   # write ./.claude/settings.json, not ~/
+npx @alokraj68/craftkit --list          # the whole catalogue, install nothing
+npx @alokraj68/craftkit ui coding       # skip the question
+npx @alokraj68/craftkit ui --dry-run    # show exactly what would happen
+npx @alokraj68/craftkit --all --yes     # everything, no prompts
+npx @alokraj68/craftkit writing --project   # write ./.claude/settings.json, not ~/
 ```
 
 **Nothing runs before you have seen it.** The plan lists every plugin, every
@@ -120,16 +120,16 @@ If you would rather skip the wizard:
 Or install a CLI on its own:
 
 ```bash
-npm i -D plainspoken
-npm i -D pagecheck playwright
-npm i -D ats-resume
+npm i -D @alokraj68/plainspoken
+npm i -D @alokraj68/pagecheck playwright
+npm i -D @alokraj68/ats-resume
 ```
 
 ## 🧩 The four plugins
 
 ### ✍️ plainspoken
 
-[npm](https://www.npmjs.com/package/plainspoken) · [docs](./plugins/plainspoken) · [skill](./plugins/plainspoken/skills/plain-writing/SKILL.md)
+[npm](https://www.npmjs.com/package/@alokraj68/plainspoken) · [docs](./plugins/plainspoken) · [skill](./plugins/plainspoken/skills/plain-writing/SKILL.md)
 
 Reads Markdown and plain text, so it works on docs, READMEs, release notes, landing copy and CVs alike.
 
@@ -155,7 +155,7 @@ docs/architecture.md
 
 ### 📱 pagecheck
 
-[npm](https://www.npmjs.com/package/pagecheck) · [docs](./plugins/pagecheck) · [skill](./plugins/pagecheck/skills/page-audit/SKILL.md)
+[npm](https://www.npmjs.com/package/@alokraj68/pagecheck) · [docs](./plugins/pagecheck) · [skill](./plugins/pagecheck/skills/page-audit/SKILL.md)
 
 ```bash
 node plugins/pagecheck/bin/pagecheck.mjs ./dist
@@ -172,7 +172,7 @@ Three false positives had to die before its numbers meant anything:
 
 ### 📄 ats-resume
 
-[npm](https://www.npmjs.com/package/ats-resume) · [docs](./plugins/ats-resume) · [skill](./plugins/ats-resume/skills/tailor-resume/SKILL.md)
+[npm](https://www.npmjs.com/package/@alokraj68/ats-resume) · [docs](./plugins/ats-resume) · [skill](./plugins/ats-resume/skills/tailor-resume/SKILL.md)
 
 ```bash
 node plugins/ats-resume/bin/ats-resume.mjs lint resume.json
@@ -216,7 +216,7 @@ Three of the tests exist purely to keep out patterns that looked reasonable and 
 ## 🎒 The curated toolkit
 
 `toolkit/catalogue.json` is the whole set, grouped by what you do rather than by
-who wrote it. `npx craftkit` reads it.
+who wrote it. `npx @alokraj68/craftkit` reads it.
 
 **Nothing third-party is vendored here.** Of the 47 skills this grew from, **26
 carry no licence file at all**, which under copyright means the author kept every

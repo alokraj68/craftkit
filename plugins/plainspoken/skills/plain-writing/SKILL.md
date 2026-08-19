@@ -7,7 +7,7 @@ description: Write prose that does not read as machine-written. Use when draftin
 
 The linter catches phrases. This catches the thinking behind them.
 
-Run `npx plainspoken <path>` for the mechanical half. Everything below is the
+Run `npx @alokraj68/plainspoken <path>` for the mechanical half. Everything below is the
 half a regex cannot do.
 
 ## The one rule underneath all the others
@@ -96,9 +96,9 @@ quietly softening it into something unfalsifiable.
 ## Checking your work
 
 ```
-npx plainspoken docs/                 # docs preset, the default
-npx plainspoken cv.md --preset resume # ratios become gates
-npx plainspoken . --warnings-as-errors
+npx @alokraj68/plainspoken docs/                 # docs preset, the default
+npx @alokraj68/plainspoken cv.md --preset resume # ratios become gates
+npx @alokraj68/plainspoken . --warnings-as-errors
 ```
 
 Errors are fixed phrases with no defensible use. Warnings are heuristics -
@@ -120,8 +120,8 @@ the task moves outside this one:
 
 | Skill | Tool | For |
 |---|---|---|
-| [`page-audit`](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck/skills/page-audit) | `npx pagecheck` | layout and typography: overflow, tiny text, tap targets, contrast |
-| [`tailor-resume`](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume/skills/tailor-resume) | `npx ats-resume` | résumé parseability and job-description matching |
+| [`page-audit`](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck/skills/page-audit) | `npx @alokraj68/pagecheck` | layout and typography: overflow, tiny text, tap targets, contrast |
+| [`tailor-resume`](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume/skills/tailor-resume) | `npx @alokraj68/ats-resume` | résumé parseability and job-description matching |
 | [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup/skills/craft-setup) | skill only | the working agreement: verify before claiming done |
 
-Install any of them, or all four, with `npx craftkit`.
+Install any of them, or all four, with `npx @alokraj68/craftkit`.
