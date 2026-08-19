@@ -4,127 +4,204 @@
     "",
     "kind: plugin   enabled by writing settings.json (marketplace + enabledPlugins)",
     "kind: craftkit same, but from this repo's own marketplace",
-    "kind: skill    cloned from upstream into ~/.claude/skills",
-    "kind: manual   printed for you to run; never executed for you",
+    "kind: skill    cloned from upstream at a pinned commit, into ~/.claude/skills",
+    "kind: manual   an installer, run with its version or commit pinned",
     "",
     "Nothing third-party is vendored here. Most of these carry no licence file,",
     "which under copyright means the author kept every right, so the installer",
-    "clones from each upstream instead of shipping a copy."
+    "clones from each upstream instead of shipping a copy.",
+    "",
+    "`commit` pins what gets installed. These run with full agent permissions, so",
+    "a floating default branch means today's audit says nothing about tomorrow's",
+    "install. Refresh with `craftkit --update-pins`, which resolves each HEAD and",
+    "writes it back so the change is a reviewable diff. `--latest` ignores pins on",
+    "purpose. Plugins (kind: plugin/craftkit) cannot be pinned from here - Claude",
+    "Code fetches those itself from the marketplace."
   ],
-
-  "always": ["caveman", "lean-ctx"],
-
+  "always": [
+    "caveman",
+    "lean-ctx"
+  ],
   "buckets": {
     "ui": {
-      "emoji": "🎨",
+      "emoji": "\ud83c\udfa8",
       "label": "UI / UX and frontend design",
       "blurb": "design judgement, motion, and a layout audit that fails the build",
-      "items": ["frontend-design", "ui-ux-pro-max", "design-taste-frontend", "emil-motion", "impeccable", "pagecheck"]
+      "items": [
+        "frontend-design",
+        "ui-ux-pro-max",
+        "design-taste-frontend",
+        "emil-motion",
+        "impeccable",
+        "pagecheck"
+      ]
     },
     "writing": {
-      "emoji": "✍️",
+      "emoji": "\u270d\ufe0f",
       "label": "Writing, docs and READMEs",
       "blurb": "prose that does not read as machine-written",
-      "items": ["plainspoken"]
+      "items": [
+        "plainspoken"
+      ]
     },
     "coding": {
-      "emoji": "💻",
+      "emoji": "\ud83d\udcbb",
       "label": "Coding",
       "blurb": "smallest thing that works, and verify before claiming done",
-      "items": ["ponytail", "karpathy-guidelines", "craft-setup"]
+      "items": [
+        "ponytail",
+        "karpathy-guidelines",
+        "craft-setup"
+      ]
     },
     "resume": {
-      "emoji": "📄",
-      "label": "Résumé and job search",
+      "emoji": "\ud83d\udcc4",
+      "label": "R\u00e9sum\u00e9 and job search",
       "blurb": "a file an applicant tracking system can actually parse",
-      "items": ["ats-resume", "plainspoken"]
+      "items": [
+        "ats-resume",
+        "plainspoken"
+      ]
     },
     "seo": {
-      "emoji": "🔍",
+      "emoji": "\ud83d\udd0d",
       "label": "SEO and content strategy",
       "blurb": "about 30 skills: audits, schema, SERP clustering, AI visibility",
-      "items": ["claude-seo"]
+      "items": [
+        "claude-seo"
+      ]
     }
   },
-
   "items": {
     "caveman": {
-      "kind": "plugin", "marketplace": "caveman", "repo": "JuliusBrussee/caveman", "plugin": "caveman",
+      "kind": "plugin",
+      "marketplace": "caveman",
+      "repo": "JuliusBrussee/caveman",
+      "plugin": "caveman",
       "what": "compressed replies; cuts filler without losing technical detail",
       "licence": "check upstream"
     },
     "lean-ctx": {
-      "kind": "manual", "repo": "yvgude/lean-ctx",
+      "kind": "manual",
+      "repo": "yvgude/lean-ctx",
       "what": "context runtime: compressed reads, searches and shell output",
       "why_manual": "installs by piping a remote script into bash, and configures a global MCP server. That is your decision to make, not a script's.",
       "steps": [
-        "curl -fsSL https://raw.githubusercontent.com/yvgude/lean-ctx/main/skills/lean-ctx/scripts/install.sh | bash",
+        "curl -fsSL https://raw.githubusercontent.com/yvgude/lean-ctx/607a9c735745c2e00fddb8cd115986e06d4fd34d/skills/lean-ctx/scripts/install.sh | bash",
         "lean-ctx init --global",
         "lean-ctx doctor --fix"
       ],
-      "licence": "check upstream"
+      "licence": "check upstream",
+      "commit": "607a9c735745c2e00fddb8cd115986e06d4fd34d"
     },
     "frontend-design": {
-      "kind": "plugin", "marketplace": "claude-plugins-official", "repo": "anthropics/claude-plugins-official", "plugin": "frontend-design",
-      "what": "design judgement for anything visual", "licence": "see upstream"
+      "kind": "plugin",
+      "marketplace": "claude-plugins-official",
+      "repo": "anthropics/claude-plugins-official",
+      "plugin": "frontend-design",
+      "what": "design judgement for anything visual",
+      "licence": "see upstream"
     },
     "ui-ux-pro-max": {
-      "kind": "plugin", "marketplace": "ui-ux-pro-max-skill", "repo": "nextlevelbuilder/ui-ux-pro-max-skill", "plugin": "ui-ux-pro-max",
+      "kind": "plugin",
+      "marketplace": "ui-ux-pro-max-skill",
+      "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "plugin": "ui-ux-pro-max",
       "what": "UI and UX reference: styles, palettes, type pairings, motion presets",
       "licence": "check upstream"
     },
     "ponytail": {
-      "kind": "plugin", "marketplace": "ponytail", "repo": "DietrichGebert/ponytail", "plugin": "ponytail",
+      "kind": "plugin",
+      "marketplace": "ponytail",
+      "repo": "DietrichGebert/ponytail",
+      "plugin": "ponytail",
       "what": "laziest-that-works mindset; stops over-engineering before it starts",
       "licence": "check upstream"
     },
     "plainspoken": {
-      "kind": "craftkit", "plugin": "plainspoken",
-      "what": "fails the build when prose reads as machine-written", "licence": "MIT"
+      "kind": "craftkit",
+      "plugin": "plainspoken",
+      "what": "fails the build when prose reads as machine-written",
+      "licence": "MIT"
     },
     "pagecheck": {
-      "kind": "craftkit", "plugin": "pagecheck",
-      "what": "overflow, ragged lines, tiny text, tap targets, WCAG AA contrast", "licence": "MIT"
+      "kind": "craftkit",
+      "plugin": "pagecheck",
+      "what": "overflow, ragged lines, tiny text, tap targets, WCAG AA contrast",
+      "licence": "MIT"
     },
     "ats-resume": {
-      "kind": "craftkit", "plugin": "ats-resume",
-      "what": "résumé parseability and job-description gap analysis", "licence": "MIT"
+      "kind": "craftkit",
+      "plugin": "ats-resume",
+      "what": "r\u00e9sum\u00e9 parseability and job-description gap analysis",
+      "licence": "MIT"
     },
     "craft-setup": {
-      "kind": "craftkit", "plugin": "craft-setup",
-      "what": "verify before claiming done; never commit unasked", "licence": "MIT"
+      "kind": "craftkit",
+      "plugin": "craft-setup",
+      "what": "verify before claiming done; never commit unasked",
+      "licence": "MIT"
     },
     "design-taste-frontend": {
-      "kind": "skill", "repo": "leonxlnx/taste-skill", "take": ["skills/taste-skill"],
+      "kind": "skill",
+      "repo": "leonxlnx/taste-skill",
+      "take": [
+        "skills/taste-skill"
+      ],
       "what": "anti-slop frontend direction for landing pages and portfolios",
       "note": "ships in a directory called taste-skill but declares name: design-taste-frontend, so it installs under the declared name",
-      "licence": "check upstream"
+      "licence": "check upstream",
+      "commit": "dfb6f9f9e93a39f673b1827c0889cc28326d1800"
     },
     "emil-motion": {
-      "kind": "skill", "repo": "emilkowalski/skills",
-      "take": ["animate", "animation-vocabulary", "apple-design", "emil-design-eng",
-               "find-animation-opportunities", "improve-animations", "pick-ui-library",
-               "prototype", "review-animations"],
+      "kind": "skill",
+      "repo": "emilkowalski/skills",
+      "take": [
+        "animate",
+        "animation-vocabulary",
+        "apple-design",
+        "emil-design-eng",
+        "find-animation-opportunities",
+        "improve-animations",
+        "pick-ui-library",
+        "prototype",
+        "review-animations"
+      ],
       "what": "nine motion and UI-polish skills",
       "note": "pick-ui-library, prototype and review-animations set disable-model-invocation, so they never appear in the skills listing and run only when invoked by name",
-      "licence": "check upstream"
+      "licence": "check upstream",
+      "commit": "e879241fab3cdb22e8d95587cdbf40b57a88d7da"
     },
     "karpathy-guidelines": {
-      "kind": "skill", "repo": "multica-ai/andrej-karpathy-skills", "take": ["skills/karpathy-guidelines"],
+      "kind": "skill",
+      "repo": "multica-ai/andrej-karpathy-skills",
+      "take": [
+        "skills/karpathy-guidelines"
+      ],
       "what": "surgical edits, stated assumptions, verifiable success criteria",
-      "licence": "check upstream"
+      "licence": "check upstream",
+      "commit": "2c606141936f1eeef17fa3043a72095b4765b9c2"
     },
     "impeccable": {
-      "kind": "manual", "repo": "pbakaus/impeccable",
+      "kind": "manual",
+      "repo": "pbakaus/impeccable",
       "what": "frontend interface design, critique and polish",
       "why_manual": "its SKILL.md is generated from SKILL.src.md and still holds {{scripts_path}} placeholders, so a plain copy installs a broken skill",
-      "steps": ["npx impeccable install"],
-      "licence": "check upstream"
+      "steps": [
+        "npx --yes impeccable@3.6.0 install"
+      ],
+      "licence": "check upstream",
+      "pinned_version": "3.6.0"
     },
     "claude-seo": {
-      "kind": "skill", "repo": "AgriciDaniel/claude-seo", "take": ["skills"],
+      "kind": "skill",
+      "repo": "AgriciDaniel/claude-seo",
+      "take": [
+        "skills"
+      ],
       "what": "about 30 SEO skills: audits, schema, clustering, AI visibility",
-      "licence": "MIT (c) AgriciDaniel"
+      "licence": "MIT (c) AgriciDaniel",
+      "commit": "09d37c7b66ed3ca9c6efbdb765a805a6c76a8f01"
     }
   }
 }

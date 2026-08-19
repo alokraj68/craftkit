@@ -1,35 +1,84 @@
-name: ci
-on: [push, pull_request]
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['18', '20', '22', '24']
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 22 }
+      - uses: actions/checkout@v7
 
-      - run: node plugins/plainspoken/test/run.mjs
-      - run: node plugins/ats-resume/test/run.mjs
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
 
-      - name: pagecheck (needs a browser)
+      # No dependencies to install: every package here has zero runtime deps.
+      - name: plainspoken
+        run: node plugins/plainspoken/test/run.mjs
+
+      - name: ats-resume
+        run: node plugins/ats-resume/test/run.mjs
+
+      # pagecheck skips its 11 browser tests silently without Playwright, so
+      # install it rather than letting a green 10 pass for a green 21.
+      - name: pagecheck
         run: |
           npm i --no-save playwright
           npx playwright install --with-deps chromium
           node plugins/pagecheck/test/run.mjs
 
-      # A prose linter that cannot survive its own documentation is not usable.
-      - name: lint this repo's own prose
-        run: |
-          node plugins/plainspoken/bin/plainspoken.mjs \
-            README.md CLAUDE.md \
-            plugins/plainspoken/README.md \
-            plugins/plainspoken/skills/plain-writing/SKILL.md \
-            plugins/pagecheck/skills/page-audit/SKILL.md \
-            plugins/craft-setup/skills/craft-setup/SKILL.md \
-            plugins/ats-resume/skills/tailor-resume/SKILL.md
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
 
-      - name: manifests parse
+      # A prose linter that cannot survive its own documentation is not usable.
+      - name: Lint this repo's own prose
+        run: npm run lint:prose
+
+      - name: Manifests parse
         run: |
-          for f in .claude-plugin/marketplace.json plugins/*/.claude-plugin/plugin.json toolkit/skills.json; do
+          for f in .claude-plugin/marketplace.json plugins/*/.claude-plugin/plugin.json toolkit/catalogue.json package.json plugins/*/package.json; do
             node -e "JSON.parse(require('fs').readFileSync('$f'))" || exit 1
           done
+
+      - name: Catalogue has no dangling references
+        run: |
+          node -e "
+            const c = require('./toolkit/catalogue.json');
+            const items = Object.keys(c.items);
+            const used = new Set([...c.always, ...Object.values(c.buckets).flatMap(b => b.items)]);
+            const missing = [...used].filter(x => !items.includes(x));
+            if (missing.length) { console.error('dangling:', missing); process.exit(1); }
+            const unpinned = Object.entries(c.items)
+              .filter(([, v]) => v.kind === 'skill' && !/^[0-9a-f]{40}\$/.test(v.commit ?? ''));
+            if (unpinned.length) {
+              console.error('unpinned skill repos:', unpinned.map(([k]) => k));
+              process.exit(1);
+            }
+            console.log('catalogue ok:', items.length, 'items, all skill repos pinned');
+          "
+
+      - name: Onboarder runs
+        run: node toolkit/onboard.mjs --all --dry-run
+
+      - name: Package contents
+        run: |
+          npm pack --dry-run
+          for p in plainspoken pagecheck ats-resume; do (cd "plugins/$p" && npm pack --dry-run); done

@@ -5,6 +5,8 @@
 //   npx craftkit ui coding        pick buckets up front
 //   npx craftkit --all --yes      everything, no prompts
 //   npx craftkit --list           show the catalogue, install nothing
+//   npx craftkit --update-pins    resolve each upstream HEAD, write it back
+//   npx craftkit ui --latest      ignore the pins on purpose
 //   npx craftkit ui --dry-run     show exactly what would happen, do nothing
 //
 // It does the work: enables plugins by writing settings.json, clones skills
@@ -53,6 +55,44 @@ function printCatalogue() {
 }
 
 if (has('--list') || has('-l')) { printCatalogue(); process.exit(0); }
+
+// Refresh every pin to its upstream HEAD and write the catalogue back, so
+// moving to newer third-party code is a reviewable diff rather than something
+// that happens quietly on the next install.
+if (has('--update-pins')) {
+  const file = join(here, 'catalogue.json');
+  const raw = JSON.parse(readFileSync(file, 'utf8'));
+  let changed = 0;
+  say(`\n${C.b}  Resolving upstream HEADs${C.off}\n`);
+  for (const [id, it] of Object.entries(raw.items)) {
+    if (!it.repo || !it.commit) continue;
+    try {
+      const out = execFileSync('git', ['ls-remote', `https://github.com/${it.repo}.git`, 'HEAD'],
+        { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
+      const sha = out.split(/\s+/)[0];
+      if (!/^[0-9a-f]{40}$/.test(sha)) throw new Error('no SHA in ls-remote output');
+      if (sha === it.commit) {
+        say(`    ${C.dim}=${C.off} ${id.padEnd(24)} ${C.dim}${sha.slice(0, 12)}${C.off}`);
+      } else {
+        say(`    ${C.y}~${C.off} ${id.padEnd(24)} ${it.commit.slice(0, 12)} ${C.y}->${C.off} ${sha.slice(0, 12)}`);
+        // lean-ctx pins a raw.githubusercontent URL, which carries the SHA too.
+        if (it.steps) it.steps = it.steps.map((x) => x.split(it.commit).join(sha));
+        it.commit = sha;
+        changed++;
+      }
+    } catch (err) {
+      say(`    ${C.r}!${C.off} ${id.padEnd(24)} ${err.message.split('\n')[0]}`);
+    }
+  }
+  if (changed) {
+    writeFileSync(file, JSON.stringify(raw, null, 2) + '\n');
+    say(`\n  ${C.g}${changed} pin(s) updated${C.off} in ${file.replace(HOME, '~')}`);
+    say(`  ${C.dim}Review the diff before committing. These run with full agent permissions.${C.off}\n`);
+  } else {
+    say(`\n  ${C.dim}Every pin already matches upstream HEAD.${C.off}\n`);
+  }
+  process.exit(0);
+}
 
 // ------------------------------------------------------------------- choose
 const keys = Object.keys(cat.buckets);
@@ -125,7 +165,8 @@ if (skills.length) {
   for (const id of skills) {
     const it = item(id);
     const n = it.take?.length > 1 ? ` (${it.take.length} skills)` : '';
-    say(`    ${(id + n).padEnd(22)} ${C.dim}${it.repo}  [${it.licence}]${C.off}`);
+    const at = has('--latest') ? `${C.y}latest${C.off}` : `${C.dim}@${(it.commit ?? '?').slice(0, 8)}${C.off}`;
+    say(`    ${(id + n).padEnd(22)} ${C.dim}${it.repo}${C.off} ${at} ${C.dim}[${it.licence}]${C.off}`);
   }
   say('');
 }
@@ -141,7 +182,12 @@ if (manual.length) {
 }
 
 say(`  ${C.dim}Third-party skills are cloned from their own repositories, never copied`);
-say(`  into craftkit. They run with full agent permissions once installed.${C.off}`);
+say(`  into craftkit, and pinned to the commit shown. They run with full agent`);
+say(`  permissions once installed.${C.off}`);
+if (has('--latest')) {
+  say(`\n  ${C.y}--latest: pins ignored. You will get whatever is on the default branch${C.off}`);
+  say(`  ${C.y}right now, which nobody has reviewed.${C.off}`);
+}
 
 if (has('--dry-run')) {
   say(`\n  ${C.dim}--dry-run: nothing was installed.${C.off}\n`);
@@ -202,10 +248,32 @@ if (skills.length) {
   for (const id of skills) {
     const it = item(id);
     const tmp = mkdtempSync(join(tmpdir(), 'craftkit-'));
+    const pin = has('--latest') ? null : it.commit;
     try {
-      process.stdout.write(`    ${id} ${C.dim}cloning ${it.repo}…${C.off}`);
-      execFileSync('git', ['clone', '--depth', '1', '--quiet', `https://github.com/${it.repo}.git`, tmp],
-        { stdio: ['ignore', 'pipe', 'pipe'] });
+      process.stdout.write(`    ${id} ${C.dim}fetching ${it.repo}${pin ? `@${pin.slice(0, 8)}` : ' (latest)'}…${C.off}`);
+      const url = `https://github.com/${it.repo}.git`;
+      if (pin) {
+        // Fetch the one commit rather than cloning history. GitHub serves a
+        // SHA directly; if a host refuses, fall back to a full clone.
+        execFileSync('git', ['init', '--quiet', tmp], { stdio: ['ignore', 'pipe', 'pipe'] });
+        execFileSync('git', ['-C', tmp, 'remote', 'add', 'origin', url], { stdio: ['ignore', 'pipe', 'pipe'] });
+        try {
+          execFileSync('git', ['-C', tmp, 'fetch', '--depth', '1', '--quiet', 'origin', pin],
+            { stdio: ['ignore', 'pipe', 'pipe'] });
+          execFileSync('git', ['-C', tmp, 'checkout', '--quiet', 'FETCH_HEAD'], { stdio: ['ignore', 'pipe', 'pipe'] });
+        } catch {
+          rmSync(tmp, { recursive: true, force: true });
+          mkdirSync(tmp, { recursive: true });
+          execFileSync('git', ['clone', '--quiet', url, tmp], { stdio: ['ignore', 'pipe', 'pipe'] });
+          execFileSync('git', ['-C', tmp, 'checkout', '--quiet', pin], { stdio: ['ignore', 'pipe', 'pipe'] });
+        }
+        // Prove we are on the commit the catalogue names, not whatever arrived.
+        const at = execFileSync('git', ['-C', tmp, 'rev-parse', 'HEAD'],
+          { stdio: ['ignore', 'pipe', 'pipe'] }).toString().trim();
+        if (at !== pin) throw new Error(`expected ${pin}, got ${at}`);
+      } else {
+        execFileSync('git', ['clone', '--depth', '1', '--quiet', url, tmp], { stdio: ['ignore', 'pipe', 'pipe'] });
+      }
       say('');
       for (const sub of it.take) {
         const from = join(tmp, sub);
