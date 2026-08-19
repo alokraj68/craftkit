@@ -14,10 +14,16 @@
   ],
   "license": "MIT",
   "author": "Alok Rajasukumaran (https://alokraj68.in)",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/alokraj68"
-  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/alokraj68"
+    },
+    {
+      "type": "buymeacoffee",
+      "url": "https://buymeacoffee.com/alokraj68"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alokraj68/craftkit.git"
