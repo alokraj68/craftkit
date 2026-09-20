@@ -347,19 +347,9 @@ and no token anywhere in the repository.
 **Shipped**
 
 - [x] All four packages on npm under `@alokraj68`, published from CI over OIDC with SLSA provenance
-- [x] `npx @alokraj68/craftkit` onboarding, with upstream skills pinned to commits
+- [x] `npx @alokraj68/craftkit` onboarding, installing upstream skills at their latest
 - [x] Retired the duplicated `check-mobile` and `check-type` from
       [alokraj68.in](https://github.com/alokraj68/alokraj68.in): 329 lines deleted, replaced by `@alokraj68/pagecheck`
-
-**Next**
-
-- [ ] Retire the seven duplicated rule sets in alokraj68.in's `src/data/ats.ts`. Blocked on
-      `plainspoken` exposing its thresholds as importable config, since that repo applies
-      them at résumé strictness rather than the defaults
-- [ ] `.docx` and PDF export for `ats-resume`, or a documented handoff to an existing JSON Resume theme
-- [ ] A `--fix` mode for the mechanical half of `plainspoken`
-- [ ] More `pagecheck` viewports, and a stored baseline so a regression is visible as a diff
-- [ ] Publish `craft-setup` somewhere installable without the marketplace
 
 ## 🤝 Contributing
 
