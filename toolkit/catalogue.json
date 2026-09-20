@@ -4,19 +4,19 @@
     "",
     "kind: plugin   enabled by writing settings.json (marketplace + enabledPlugins)",
     "kind: craftkit same, but from this repo's own marketplace",
-    "kind: skill    cloned from upstream at a pinned commit, into ~/.claude/skills",
-    "kind: manual   an installer, run with its version or commit pinned",
+    "kind: skill    cloned from upstream's default branch, into ~/.claude/skills",
+    "kind: manual   an installer, run at @latest",
     "",
     "Nothing third-party is vendored here. Most of these carry no licence file,",
     "which under copyright means the author kept every right, so the installer",
     "clones from each upstream instead of shipping a copy.",
     "",
-    "`commit` pins what gets installed. These run with full agent permissions, so",
-    "a floating default branch means today's audit says nothing about tomorrow's",
-    "install. Refresh with `craftkit --update-pins`, which resolves each HEAD and",
-    "writes it back so the change is a reviewable diff. `--latest` ignores pins on",
-    "purpose. Plugins (kind: plugin/craftkit) cannot be pinned from here - Claude",
-    "Code fetches those itself from the marketplace."
+    "Installs are deliberately unpinned: every skill clones its upstream default",
+    "branch and every installer runs @latest, so upstream fixes reach users the",
+    "moment they ship - the trade is that these run with full agent permissions,",
+    "so what installs today is whatever upstream last pushed, not a reviewed pin.",
+    "Plugins (kind: plugin/craftkit) are fetched by Claude Code from the",
+    "marketplace, likewise at their latest."
   ],
   "always": [
     "caveman",
@@ -90,7 +90,6 @@
         "lean-ctx doctor --fix"
       ],
       "licence": "check upstream",
-      "commit": "607a9c735745c2e00fddb8cd115986e06d4fd34d",
       "runner": "install-lean-ctx.mjs",
       "note": "Ships as a platform binary, not an npm package. The upstream installer is a shell script, so craftkit resolves the release, verifies the published SHA256 and unpacks it - which works on Windows and checks what it downloaded."
     },
@@ -150,8 +149,7 @@
       ],
       "what": "anti-slop frontend direction for landing pages and portfolios",
       "note": "ships in a directory called taste-skill but declares name: design-taste-frontend, so it installs under the declared name",
-      "licence": "MIT",
-      "commit": "dfb6f9f9e93a39f673b1827c0889cc28326d1800"
+      "licence": "MIT"
     },
     "emil-motion": {
       "kind": "skill",
@@ -169,8 +167,7 @@
       ],
       "what": "nine motion and UI-polish skills",
       "note": "pick-ui-library, prototype and review-animations set disable-model-invocation, so they never appear in the skills listing and run only when invoked by name",
-      "licence": "MIT (c) Emil Kowalski",
-      "commit": "e879241fab3cdb22e8d95587cdbf40b57a88d7da"
+      "licence": "MIT (c) Emil Kowalski"
     },
     "karpathy-guidelines": {
       "kind": "skill",
@@ -179,8 +176,7 @@
         "skills/karpathy-guidelines"
       ],
       "what": "surgical edits, stated assumptions, verifiable success criteria",
-      "licence": "check upstream",
-      "commit": "2c606141936f1eeef17fa3043a72095b4765b9c2"
+      "licence": "check upstream"
     },
     "impeccable": {
       "kind": "manual",
@@ -188,10 +184,10 @@
       "what": "frontend interface design, critique and polish",
       "why_manual": "its SKILL.md is generated from SKILL.src.md and still holds {{scripts_path}} placeholders, so a plain copy installs a broken skill",
       "steps": [
-        "npx --yes impeccable@3.6.0 install"
+        "npx --yes impeccable@latest install --global --providers=claude -y"
       ],
       "licence": "check upstream",
-      "pinned_version": "3.6.0"
+      "note_version": "Deliberately unpinned: impeccable's installer downloads its skills and engine fresh at install time, so a CLI pin never froze the content anyway, and a pinned-but-broken release (3.6.0) could not self-heal for users. @latest lets upstream fixes reach everyone. --update-pins leaves this alone."
     },
     "claude-seo": {
       "kind": "skill",
@@ -200,8 +196,7 @@
         "skills"
       ],
       "what": "about 30 SEO skills: audits, schema, clustering, AI visibility",
-      "licence": "MIT (c) AgriciDaniel",
-      "commit": "09d37c7b66ed3ca9c6efbdb765a805a6c76a8f01"
+      "licence": "MIT (c) AgriciDaniel"
     }
   }
 }
