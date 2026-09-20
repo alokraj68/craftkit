@@ -68,13 +68,12 @@ jobs:
             const used = new Set([...c.always, ...Object.values(c.buckets).flatMap(b => b.items)]);
             const missing = [...used].filter(x => !items.includes(x));
             if (missing.length) { console.error('dangling:', missing); process.exit(1); }
-            const unpinned = Object.entries(c.items)
-              .filter(([, v]) => v.kind === 'skill' && !/^[0-9a-f]{40}\$/.test(v.commit ?? ''));
-            if (unpinned.length) {
-              console.error('unpinned skill repos:', unpinned.map(([k]) => k));
+            const stray = Object.entries(c.items).filter(([, v]) => 'commit' in v);
+            if (stray.length) {
+              console.error('installs are unpinned by policy; drop commit from:', stray.map(([k]) => k));
               process.exit(1);
             }
-            console.log('catalogue ok:', items.length, 'items, all skill repos pinned');
+            console.log('catalogue ok:', items.length, 'items, all installs latest');
           "
 
       - name: Onboarder runs
