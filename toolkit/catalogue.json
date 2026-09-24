@@ -187,7 +187,7 @@
         "npx --yes impeccable@latest install --global --providers=claude -y"
       ],
       "licence": "check upstream",
-      "note_version": "Deliberately unpinned: impeccable's installer downloads its skills and engine fresh at install time, so a CLI pin never froze the content anyway, and a pinned-but-broken release (3.6.0) could not self-heal for users. @latest lets upstream fixes reach everyone. --update-pins leaves this alone."
+      "note_version": "Deliberately unpinned: impeccable's installer downloads its skills and engine fresh at install time, so a CLI pin never froze the content anyway, and a pinned-but-broken release (3.6.0) could not self-heal for users. @latest lets upstream fixes reach everyone."
     },
     "claude-seo": {
       "kind": "skill",

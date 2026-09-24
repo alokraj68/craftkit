@@ -10,7 +10,7 @@ Four plugins, each independently useful and independently installable:
 | `craft-setup` | skill only | The working agreement: verify before done, never commit unasked, enforce in code not prose |
 | `plainspoken` | skill + `plainspoken` CLI | Fails the build when prose reads as machine-written |
 | `pagecheck` | skill + `pagecheck` CLI | Fails the build when a page breaks on a phone or misses WCAG AA |
-| `ats-resume` | skill + `ats-resume` CLI | Fails when an applicant tracking system cannot parse the résumé |
+| `ats-resume` | skill + `ats-resume` CLI | Fails when an applicant tracking system cannot parse the résumé, or when a rewrite drops a figure |
 
 ```
 craftkit/
@@ -31,8 +31,9 @@ craftkit/
       src/rules.mjs                 what an ATS does, and the executive signals
       src/normalize.mjs             JSON Resume -> the units the checks judge
       src/lint.mjs                  source pass, extraction pass, tailoring
-      bin/ats-resume.mjs            CLI: lint, tailor
-      test/run.mjs                  37 tests
+      src/diff.mjs                  which facts a rewrite dropped
+      bin/ats-resume.mjs            CLI: lint, tailor, diff
+      test/run.mjs                  49 tests
   toolkit/
     catalogue.json                  the curated set, grouped by what you do
     onboard.mjs                     `npx @alokraj68/craftkit` - the onboarding wizard
@@ -95,7 +96,7 @@ matters.
 npm test                                 # all three suites
 
 node plugins/plainspoken/test/run.mjs    # 33 tests
-node plugins/ats-resume/test/run.mjs     # 37 tests
+node plugins/ats-resume/test/run.mjs     # 49 tests
 node plugins/pagecheck/test/run.mjs      # 21 tests
 ```
 
@@ -193,23 +194,29 @@ outside the page so it can be unit-tested without a browser.
 
 ## Third-party skills: reference, never vendor
 
-`toolkit/skills.json` curates the set. **Nothing third-party is copied into this
+`toolkit/catalogue.json` curates the set, and its `_comment` block is the
+maintained copy of this rule - it sits beside the installer that reads it, so it
+cannot drift the way this file did. **Nothing third-party is copied into this
 repo, and nothing should be.**
 
-Of the 47 skills this was drawn from, 26 carry **no licence file at all**, which
-under copyright means the author kept every right. Public is not the same as
-free to redistribute. `toolkit/install.mjs` clones from each upstream instead,
-which keeps the author's name on the work and lets their fixes reach users.
+Most of the catalogue carries no licence file, which under copyright means the
+author kept every right: public is not the same as free to redistribute. Three
+entries do state one - `design-taste-frontend` and `emil-motion` (MIT, (c) Emil
+Kowalski) and `claude-seo` (MIT, (c) AgriciDaniel) - and seven say "check
+upstream", which is an instruction and not a licence. `toolkit/onboard.mjs`
+clones from each upstream rather than vendoring, which keeps the author's name
+on the work and lets their fixes reach users.
 
-Only AgriciDaniel's SEO set carries an explicit licence (MIT).
+Four install mechanics, carried by `items.<name>.kind` in the catalogue, and
+they are not interchangeable:
 
-Two mechanics, and they are not interchangeable:
-
-- **Plugins** (caveman, ponytail, ui-ux-pro-max, the official set) install with
-  `/plugin marketplace add owner/repo`. Listed under `marketplaces`.
-- **Skills-only repos** (impeccable, the Emil Kowalski set, karpathy, the SEO
-  suite) have no plugin manifest and must be copied into `~/.claude/skills/`.
-  Listed under `skills`.
+- **`plugin`** (caveman, ponytail, ui-ux-pro-max, the official set) installs by
+  writing settings.json: a marketplace entry plus `enabledPlugins`.
+- **`craftkit`** is the same, from this repo's own marketplace.
+- **`skill`** (the Emil Kowalski set, karpathy, taste-skill, the SEO suite) has
+  no plugin manifest and is cloned into `~/.claude/skills/`.
+- **`installer`** / **`manual`** (lean-ctx, impeccable) run their own upstream
+  installer, because a file copy produces a broken install for both.
 
 Two details the installer handles and a manual copy gets wrong:
 
@@ -228,14 +235,20 @@ with full agent permissions.
 
 ## Publishing
 
-Each plugin is independently publishable to npm from its own directory
-(`plugins/plainspoken`, `plugins/pagecheck`). Version them independently; a
-change to one is not a reason to bump the other.
+Four npm packages, one per directory: the root `craftkit` CLI plus
+`plugins/plainspoken`, `plugins/pagecheck` and `plugins/ats-resume`.
+
+**Versions move together**, and `toolkit/release.mjs` enforces it. This file
+used to say the opposite - "version them independently" - which was wrong from
+the moment they shipped as a set: four packages that only make sense together,
+drifting to 1.4.2 / 1.0.9 / 1.2.0, is a support question nobody wants to answer.
+One number describes the whole repo. 1.1.0 changed only ats-resume and all four
+went out.
 
 `craft-setup` ships no code and is never published to npm.
 
 Marketplace entries in `.claude-plugin/marketplace.json` use **relative paths**,
-so adding the repo as a marketplace exposes all three without any of them being
+so adding the repo as a marketplace exposes all four without any of them being
 fetched separately.
 
 ---

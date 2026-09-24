@@ -12,7 +12,7 @@ Four Claude Code plugins that turn "looks fine to me" into a build that fails. P
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node >=18](https://img.shields.io/badge/Node-%3E%3D18-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
 [![plugins](https://img.shields.io/badge/plugins-4-6E56CF.svg)](#-the-four-plugins)
-[![tests](https://img.shields.io/badge/tests-91-2EA043.svg)](#-the-filter-every-rule-had-to-pass)
+[![tests](https://img.shields.io/badge/tests-103-2EA043.svg)](#-the-filter-every-rule-had-to-pass)
 [![runtime deps](https://img.shields.io/badge/runtime%20deps-0-2EA043.svg)](#-how-it-works)
 [![Platforms](https://github.com/alokraj68/craftkit/actions/workflows/platforms.yml/badge.svg)](https://github.com/alokraj68/craftkit/actions/workflows/platforms.yml)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin%20marketplace-D97757.svg)](https://claude.com/claude-code)
@@ -185,11 +185,14 @@ Three false positives had to die before its numbers meant anything:
 ```bash
 node plugins/ats-resume/bin/ats-resume.mjs lint resume.json
 node plugins/ats-resume/bin/ats-resume.mjs tailor resume.json posting.txt
+node plugins/ats-resume/bin/ats-resume.mjs diff before.txt after.txt
 ```
 
 Two passes, because they catch different things. The **source pass** reads `resume.json` and finds promotion chains in the title field, non-ISO dates, glyphs a parser chokes on. The **extraction pass** reads the text pulled out of the built PDF and finds what source inspection cannot:
 
 > Flexbox gaps do not exist in extracted text, and standalone separator elements can be dropped from a PDF's text layer entirely, leaving one unsplittable string where a parser expected four fields. It looks perfect in the DOM. Only reading the extraction finds it.
+
+`diff` answers the question no linter can: did a rewrite drop a claim, or only move one? Rewriting bullets is where a figure quietly disappears, because both versions stay individually valid — "carrying over $50M in annual revenue, held at over 99.95% uptime" and "held at high availability" are each perfectly good English, and nothing compares them. Reordering is invisible to it on purpose; reordering is the safe half.
 
 Tailoring filters job-description terms to what the posting **names**: a word capitalised mid-sentence is nearly always a technology, while "heavily" and "expected" never are. On a sample posting that dropped eleven noise terms and moved the reported match from 42% to 60%.
 
@@ -203,12 +206,12 @@ Distilled from running agents across a résumé generator, an Angular ERP, a Nes
 
 ## 🧪 The filter every rule had to pass
 
-**91 tests.** Every suite asserts twice — fire on input built to trip it, stay silent on input that is merely factual.
+**103 tests.** Every suite asserts twice — fire on input built to trip it, stay silent on input that is merely factual.
 
 | Suite | Tests | Fires on | Silent on |
 |---|---|---|---|
 | `plainspoken` | 33 | `fixtures/slop.md` | `fixtures/clean.md` |
-| `ats-resume` | 37 | `fixtures/broken.json` | `fixtures/good.json` |
+| `ats-resume` | 49 | `fixtures/broken.json` | `fixtures/good.json` |
 | `pagecheck` | 21 | `fixtures/broken/` | `fixtures/clean/` |
 
 ```bash

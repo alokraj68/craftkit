@@ -11,6 +11,7 @@ This is the half it cannot do.
 ```
 ats-resume lint resume.json
 ats-resume tailor resume.json posting.txt
+ats-resume diff before.txt after.txt
 ```
 
 ## Start with the strategy, not the file
@@ -122,6 +123,23 @@ Source and rendered output disagree more often than seems possible. Separator
 characters that exist in the markup can vanish from a PDF's text layer, leaving
 a contact line that no parser can split — and only reading the extraction finds
 it.
+
+Then check that the rewrite kept every claim:
+
+```
+ats-resume diff before.txt after.txt
+```
+
+This is the failure the rest of this skill cannot catch. Rewording a bullet is
+where a figure quietly disappears, and **both versions stay individually
+valid** — "the flagship platform carrying over $50M in annual revenue, held at
+over 99.95% uptime" and "the flagship platform, held at high availability" are
+each good English, so no linter flags either one. A missing figure is an error,
+a missing client name is a warning, and a bullet that only moved is reported as
+nothing at all.
+
+Never hand back a rewrite without running it. If a figure is listed, you either
+dropped it by accident or you owe the person a sentence saying why it went.
 
 ## Related skills
 
