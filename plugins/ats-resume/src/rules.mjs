@@ -61,7 +61,11 @@ export const EXPANSIONS = [
 export const EXEC_SIGNALS = [
   ['team size', /\b(\d+\+?\s*(engineers|developers|people|reports|staff)|team of \d+)/i,
     'How many people, at peak and at once?'],
-  ['hiring', /\b(hired|recruit\w*|onboard\w*|talent)\b/i,
+  // `hired` alone missed the word "hiring": "Ran the hiring loop and grew the
+  // team from 8 to 31 engineers" asked "How many did you hire?" with the answer
+  // in the same sentence. A signal check that nags about what is already on the
+  // page is worse than no check - it teaches you to skip the whole list.
+  ['hiring', /\b(hir(e|ed|es|ing)|recruit\w*|onboard\w*|talent)\b/i,
     'How many did you hire, and over what period?'],
   ['retention', /\b(retention|retained|attrition|churn|still (in place|here|with)|average tenure)\b/i,
     'Did people stay? A defensible proxy counts.'],
@@ -71,7 +75,10 @@ export const EXEC_SIGNALS = [
     'What business outcome did your work carry?'],
   ['scale', /\b(\d[\d,]*\+?\s*(users|customers|requests|transactions|records|visitors)|uptime|sla|\d+\.?\d*%)/i,
     'How big was the thing you ran?'],
-  ['delivery speed', /\b(time to market|lead time|deployment frequency|release cadence|faster|weekly|daily)\b/i,
+  // The named metrics only. "cutting deploy time from 40 minutes to 6" is the
+  // signal stated better than any of the stock phrases state it, and missed
+  // every one of them, so build/deploy/release/cycle time now count too.
+  ['delivery speed', /\b(time to market|lead time|cycle time|(deploy|deployment|build|release|ship)\w*\s+(time|frequency|cadence)|release cadence|faster|weekly|daily)\b/i,
     'Did delivery get faster under you? From what to what?'],
   ['strategy', /\b(strateg\w+|roadmap|architecture|vision|governance)\b/i,
     'What did you decide, not just build?'],

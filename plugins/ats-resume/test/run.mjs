@@ -7,6 +7,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { lintResume, lintExtracted, lintFilename, tailor, pdfPageCount } from '../src/lint.mjs';
 import { normalize, terms, mentions } from '../src/normalize.mjs';
+import { diffFacts, lintDiff, names, figures } from '../src/diff.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const fixture = (f) => JSON.parse(readFileSync(join(here, 'fixtures', f), 'utf8'));
@@ -159,6 +160,93 @@ test('pdf page count reads object headers', () => {
   assert.equal(pdfPageCount(fake), 2);
 });
 test('terms strips trailing punctuation', () => assert.ok(terms('Node.js, React.').includes('react')));
+
+
+// ── diff: did a rewrite drop a fact? ─────────────────────────────────────────
+// Both halves, as everywhere here. It has to catch a figure that really went,
+// and stay silent on a rewrite that only moved things around - the second half
+// is the harder one and the reason the rule about names is as narrow as it is.
+
+console.log('\ncatches a fact dropped in a rewrite');
+test('a vanished figure is an error', () => {
+  const r = lintDiff(
+    'Held the platform carrying over $50M in annual revenue at over 99.95% uptime.',
+    'Held the platform at high availability.');
+  assert.ok(r.lostFigures.includes('$50M'), `got: ${r.lostFigures.join(', ')}`);
+  assert.ok(r.findings.some((f) => f.severity === 'error' && f.rule === 'lost-figure'));
+});
+test('a vanished client name is a warning', () => {
+  const r = lintDiff(
+    'Rebuilt the ERP behind Pickles, Australia\u2019s largest auctioneer.',
+    'Rebuilt an ERP for a large auction business.');
+  assert.ok(r.lostNames.includes('Pickles'), `got: ${r.lostNames.join(', ')}`);
+});
+
+console.log('\nsilent on a rewrite that only changed shape');
+test('reordering loses nothing', () => {
+  const r = lintDiff(
+    'Cut spend by about $294K a month, roughly $3.5M a year, by running multi-vendor bidding: a 14% to 20% reduction.',
+    'Cut it by about $294K a month, roughly $3.5M a year, a 14% to 20% reduction, by running multi-vendor bidding.');
+  assert.equal(r.lostFigures.length, 0, `lost: ${r.lostFigures.join(', ')}`);
+  assert.equal(r.lostNames.length, 0, `lost: ${r.lostNames.join(', ')}`);
+});
+test('a trailing full stop is not part of the number', () => {
+  // "...in 2026." vs "...its 2026 acquisition" - the most common edit there is.
+  const r = lintDiff('Built to acquisition in 2026.', 'Carried it to its 2026 acquisition.');
+  assert.equal(r.lostFigures.length, 0, `lost: ${r.lostFigures.join(', ')}`);
+});
+test('a thousands comma still counts as one number', () => {
+  assert.ok(figures('a single outlet clearing around 1,300 bills a day').has('1,300'));
+});
+test('stack moved into a parenthetical keeps every tool', () => {
+  const r = lintDiff(
+    'Held EDR at over 99.95% uptime with observability through Prometheus, Grafana and centralised ELK logging.',
+    'Held EDR at over 99.95% uptime (Prometheus, Grafana, centralised ELK).');
+  assert.equal(r.lostFigures.length, 0);
+  assert.equal(r.lostNames.length, 0, `lost: ${r.lostNames.join(', ')}`);
+});
+test('a phrase survives when its words do', () => {
+  // "the Google Apigee API layer" -> "an API layer ... (Google Apigee, ...)"
+  const r = lintDiff('Owned the Google Apigee API layer in front.',
+                     'Owned an API layer in front (Google Apigee, Azure Service Bus).');
+  assert.equal(r.lostNames.length, 0, `lost: ${r.lostNames.join(', ')}`);
+});
+test('names do not fuse across a line break', () => {
+  // A plain \s in the pattern joined the end of one skills row to the start of
+  // the next and reported "MS SQL\nCloud" as a lost name.
+  const n = names('AI & Data: MS SQL\nCloud & Platform: Azure');
+  assert.ok(![...n].some((x) => x.includes('\n')), `got: ${[...n].join(' | ')}`);
+});
+test('a bullet-opening verb is not a name', () => {
+  const r = lintDiff('- Migrated the front end onto Angular 6.',
+                     '- Cut load times, migrating the front end onto Angular 6.');
+  assert.equal(r.lostNames.length, 0, `lost: ${r.lostNames.join(', ')}`);
+});
+test('word counts are reported both ways', () => {
+  const d = diffFacts('one two three', 'one two');
+  assert.deepEqual(d.words, { before: 3, after: 2 });
+});
+
+// ── exec signals: two misses found against a real resume ─────────────────────
+console.log('\nexec signals read the words people actually write');
+test('"hiring" counts as hiring, not just "hired"', () => {
+  const r = lintResume({
+    basics: { name: 'A B', email: 'a@b.co' },
+    work: [{ name: 'X', position: 'Director', startDate: '2020-01',
+             highlights: ['Ran the hiring loop and grew the team from 8 to 31 engineers.'] }],
+  });
+  assert.ok(!r.findings.some((f) => f.rule === 'exec-signal' && /^hiring:/.test(f.message)),
+    'asked about hiring with the answer in the same sentence');
+});
+test('deploy time counts as delivery speed', () => {
+  const r = lintResume({
+    basics: { name: 'A B', email: 'a@b.co' },
+    work: [{ name: 'X', position: 'Director', startDate: '2020-01',
+             highlights: ['Cut deploy time from 40 minutes to 6.'] }],
+  });
+  assert.ok(!r.findings.some((f) => f.rule === 'exec-signal' && /^delivery speed:/.test(f.message)),
+    'asked about delivery speed with the answer in the same sentence');
+});
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

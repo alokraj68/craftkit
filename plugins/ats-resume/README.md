@@ -6,7 +6,7 @@ whether it matches the posting you are about to apply to.
 [![CI](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml/badge.svg)](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/%40alokraj68%2Fats-resume.svg?logo=npm&color=0b7285)](https://www.npmjs.com/package/@alokraj68/ats-resume)
 [![install size](https://packagephobia.com/badge?p=@alokraj68/ats-resume)](https://packagephobia.com/result?p=@alokraj68/ats-resume)
-[![tests](https://img.shields.io/badge/tests-37-2EA043.svg)](#testing)
+[![tests](https://img.shields.io/badge/tests-49-2EA043.svg)](#testing)
 [![runtime deps](https://img.shields.io/badge/runtime%20deps-0-2EA043.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node >=18](https://img.shields.io/badge/Node-%3E%3D18-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
@@ -20,6 +20,7 @@ format.
 ```
 npx @alokraj68/ats-resume lint resume.json
 npx @alokraj68/ats-resume tailor resume.json posting.txt
+npx @alokraj68/ats-resume diff before.txt after.txt
 ```
 
 ## This is not a writing checker
@@ -88,13 +89,53 @@ outcomes: true and unwritten (add it where the work happened), true but weak
 (mention it once), or not true (leave it out — that is your interview prep
 list). Only the first is a wording fix.
 
+## Did the rewrite drop a fact?
+
+Rewriting bullets is the most dangerous editing a résumé gets, and not because
+the prose degrades — a linter catches that. It is because a figure can vanish in
+a reflow while **both versions stay individually valid**:
+
+> Owned EDR, the flagship platform carrying over **$50M** in annual revenue, held
+> at over **99.95%** uptime.
+
+> Owned EDR, the flagship platform, held at high availability.
+
+Both are well-formed English. Only one is the résumé you spent a year earning.
+No linter compares them, because neither is wrong on its own.
+
+```
+$ npx @alokraj68/ats-resume diff before.txt after.txt
+
+before.txt -> after.txt
+1675 words -> 1639
+  error lost-figure          "$50M" was in the previous version and is in this one nowhere
+  warn  lost-name            "Pickles" was in the previous version and is in this one nowhere
+```
+
+Reordering is invisible to it on purpose. Reordering is the safe half of a
+rewrite, and flagging it would bury the unsafe half.
+
+Two rules keep the output worth reading, both of which cost a round of false
+positives before they were right:
+
+- **A comma counts only between digits.** Otherwise the pattern eats trailing
+  punctuation, and `acquired in 2026.` reads as missing when the new text says
+  `its 2026 acquisition` — a false alarm on the most common edit there is.
+- **A name is lost only when the phrase and every word in it is gone.** So
+  `the Google Apigee API layer in front` becoming
+  `an API layer in front (Google Apigee, Azure Service Bus)` reports nothing,
+  because nothing went.
+
+Works on anything textual: two exports of a PDF, a tailored copy against the
+master, or `git show HEAD~1:resume.txt` against the file on disk.
+
 ## Exit codes
 
 `1` on any error, `0` otherwise. `--json` for machine-readable output.
 
 ## Testing
 
-37 tests. Every check is asserted twice: it must fire on a résumé built to break
+49 tests. Every check is asserted twice: it must fire on a résumé built to break
 parsing **and** stay silent on one that is simply well formed.
 
 ```

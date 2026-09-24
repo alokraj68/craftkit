@@ -5,9 +5,11 @@
 //   ats-resume lint resume.txt            text pulled out of a built PDF
 //   ats-resume lint resume.pdf            page count + text layer
 //   ats-resume tailor resume.json jd.txt
+//   ats-resume diff old.txt new.txt       did a rewrite drop a fact?
 import { readFileSync, existsSync } from 'node:fs';
 import { extname, basename } from 'node:path';
 import { lintResume, lintExtracted, lintFilename, tailor, pdfPageCount } from '../src/lint.mjs';
+import { lintDiff } from '../src/diff.mjs';
 
 const args = process.argv.slice(2);
 const cmd = args[0];
@@ -19,6 +21,7 @@ if (!cmd || args.includes('-h') || args.includes('--help')) {
   ats-resume lint <resume.txt>           check what an ATS actually receives
   ats-resume lint <resume.pdf>           page count and text-layer size
   ats-resume tailor <resume.json> <jd>   match against a job description
+  ats-resume diff <before> <after>       which facts a rewrite dropped
 
   --json            machine-readable output
   --max-pages <n>   page budget for a PDF (default 2)
@@ -158,6 +161,24 @@ if (cmd === 'tailor') {
 
   console.log(`\n${C.dim}The gap list is the interview prep list, and it matters more than the score.${C.off}`);
   process.exit(0);
+}
+
+if (cmd === 'diff') {
+  const beforeFile = read(files[0] ?? '');
+  const afterFile = read(files[1] ?? '');
+  const r = lintDiff(readFileSync(beforeFile, 'utf8'), readFileSync(afterFile, 'utf8'));
+
+  if (asJson) { console.log(JSON.stringify({ before: beforeFile, after: afterFile, ...r }, null, 2)); }
+  else {
+    console.log(`\n${basename(beforeFile)} -> ${basename(afterFile)}`);
+    console.log(`${C.dim}${r.words.before} words -> ${r.words.after}${C.off}`);
+    report(r.findings);
+    if (!r.findings.length) {
+      console.log(`\n  ${C.green}every figure and name survived the rewrite${C.off}`);
+    }
+    console.log(`${C.dim}\nReordering is invisible here on purpose. A figure listed above is in the\nold version and in the new one nowhere at all - check it was meant to go.${C.off}`);
+  }
+  process.exit(r.lostFigures.length ? 1 : 0);
 }
 
 console.error(`ats-resume: unknown command "${cmd}". See --help`);
