@@ -4,6 +4,8 @@
 
 **Green means it was checked. Not that nobody looked.**
 
+**[alokraj68.in/craftkit](https://alokraj68.in/craftkit)** &nbsp;·&nbsp; [what each plugin catches](https://alokraj68.in/open-source)
+
 Four Claude Code plugins that turn "looks fine to me" into a build that fails. Prose that reads as machine-written, pages that break on a phone, résumés no parser can read, and agents that say "done" without running anything: each one gets a gate instead of a good intention.
 
 [![CI](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml/badge.svg)](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml)
@@ -53,7 +55,6 @@ So every rule here had to clear two bars, not one. **Fire on writing built to tr
 - [The curated toolkit](#-the-curated-toolkit)
 - [How it works](#-how-it-works)
 - [For AI coding agents](#-for-ai-coding-agents)
-- [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
 - [Credits](#-credits)
 - [License](#-license)
@@ -137,7 +138,7 @@ npm i -D @alokraj68/ats-resume
 
 ### ✍️ plainspoken
 
-[npm](https://www.npmjs.com/package/@alokraj68/plainspoken) · [docs](./plugins/plainspoken) · [skill](./plugins/plainspoken/skills/plain-writing/SKILL.md)
+[npm](https://www.npmjs.com/package/@alokraj68/plainspoken) · [docs](https://alokraj68.in/plainspoken) · [skill](./plugins/plainspoken/skills/plain-writing/SKILL.md)
 
 Reads Markdown and plain text, so it works on docs, READMEs, release notes, landing copy and CVs alike.
 
@@ -163,7 +164,7 @@ docs/architecture.md
 
 ### 📱 pagecheck
 
-[npm](https://www.npmjs.com/package/@alokraj68/pagecheck) · [docs](./plugins/pagecheck) · [skill](./plugins/pagecheck/skills/page-audit/SKILL.md)
+[npm](https://www.npmjs.com/package/@alokraj68/pagecheck) · [docs](https://alokraj68.in/pagecheck) · [skill](./plugins/pagecheck/skills/page-audit/SKILL.md)
 
 ```bash
 node plugins/pagecheck/bin/pagecheck.mjs ./dist
@@ -180,7 +181,7 @@ Three false positives had to die before its numbers meant anything:
 
 ### 📄 ats-resume
 
-[npm](https://www.npmjs.com/package/@alokraj68/ats-resume) · [docs](./plugins/ats-resume) · [skill](./plugins/ats-resume/skills/tailor-resume/SKILL.md)
+[npm](https://www.npmjs.com/package/@alokraj68/ats-resume) · [docs](https://alokraj68.in/ats-resume) · [skill](./plugins/ats-resume/skills/tailor-resume/SKILL.md)
 
 ```bash
 node plugins/ats-resume/bin/ats-resume.mjs lint resume.json
@@ -345,15 +346,6 @@ Once a trusted publisher is configured on npmjs.com for each package
 `.github/workflows/publish.yml` does the same work over OIDC, with provenance
 and no token anywhere in the repository.
 
-## 🗺️ Roadmap
-
-**Shipped**
-
-- [x] All four packages on npm under `@alokraj68`, published from CI over OIDC with SLSA provenance
-- [x] `npx @alokraj68/craftkit` onboarding, installing upstream skills at their latest
-- [x] Retired the duplicated `check-mobile` and `check-type` from
-      [alokraj68.in](https://github.com/alokraj68/alokraj68.in): 329 lines deleted, replaced by `@alokraj68/pagecheck`
-
 ## 🤝 Contributing
 
 Two rules, and they are the ones that matter:
@@ -373,10 +365,10 @@ Curated third-party work belongs to its authors: [pbakaus/impeccable](https://gi
 
 ### Elsewhere
 
-- 🛡️ [`eslint-plugin-typeorm-enterprise`](https://www.npmjs.com/package/eslint-plugin-typeorm-enterprise) — the same
+- 🛡️ [`eslint-plugin-typeorm-enterprise`](https://alokraj68.in/eslint-plugin-typeorm-enterprise) — the same
   principle pointed at TypeORM: block raw SQL, require transactions, guard multi-tenant
   queries. Not part of craftkit; it fails a build the same way.
-  [docs](https://github.com/alokraj68/eslint-plugin-typeorm-enterprise)
+  [docs](https://alokraj68.in/eslint-plugin-typeorm-enterprise)
 - 🌐 [alokraj68.in](https://alokraj68.in) — who writes these, and what they were built for.
 
 ## 📄 License

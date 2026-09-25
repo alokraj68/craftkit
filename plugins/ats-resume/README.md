@@ -144,7 +144,7 @@ node test/run.mjs
 
 ## 🧰 Part of craftkit
 
-One of four tools in [craftkit](https://github.com/alokraj68/craftkit). Set all of
+One of four tools in [craftkit](https://alokraj68.in/craftkit). Set all of
 them up at once, picking only what you need:
 
 ```bash
@@ -153,8 +153,8 @@ npx @alokraj68/craftkit
 
 | | | |
 |---|---|---|
-| ✍️ [`plainspoken`](https://www.npmjs.com/package/@alokraj68/plainspoken) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken) | prose that does not read as machine-written |
-| 📱 [`pagecheck`](https://www.npmjs.com/package/@alokraj68/pagecheck) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
+| ✍️ [`plainspoken`](https://www.npmjs.com/package/@alokraj68/plainspoken) | [docs](https://alokraj68.in/plainspoken) | prose that does not read as machine-written |
+| 📱 [`pagecheck`](https://www.npmjs.com/package/@alokraj68/pagecheck) | [docs](https://alokraj68.in/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
 | 📄 **`ats-resume`** | you are here | a résumé an applicant tracking system can parse, and JD gap analysis |
 | 🧭 [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup) | skill only | verify before claiming done; never commit unasked |
 
@@ -171,10 +171,10 @@ as a Claude Code skill via the marketplace, and it is also in the npm tarball at
 
 ### Elsewhere
 
-- 🛡️ [`eslint-plugin-typeorm-enterprise`](https://www.npmjs.com/package/eslint-plugin-typeorm-enterprise) — the same
+- 🛡️ [`eslint-plugin-typeorm-enterprise`](https://alokraj68.in/eslint-plugin-typeorm-enterprise) — the same
   principle pointed at TypeORM: block raw SQL, require transactions, guard multi-tenant
   queries. Not part of craftkit; it fails a build the same way.
-  [docs](https://github.com/alokraj68/eslint-plugin-typeorm-enterprise)
+  [docs](https://alokraj68.in/eslint-plugin-typeorm-enterprise)
 - 🌐 [alokraj68.in](https://alokraj68.in) — who writes these, and what they were built for.
 
 ## Licence

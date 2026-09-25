@@ -1,6 +1,6 @@
 {
   "name": "@alokraj68/pagecheck",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Audit built pages for the defects a desktop review never sees: horizontal overflow, ragged lines, tiny text, small tap targets, and typography that fails WCAG AA.",
   "keywords": [
     "accessibility",
@@ -11,7 +11,14 @@
     "playwright",
     "wcag",
     "contrast",
-    "claude-code"
+    "claude-code",
+    "responsive",
+    "viewport",
+    "tap-targets",
+    "a11y",
+    "ui-testing",
+    "overflow",
+    "web-accessibility"
   ],
   "license": "MIT",
   "author": "Alok Rajasukumaran (https://alokraj68.in)",
@@ -57,5 +64,9 @@
   },
   "scripts": {
     "test": "node test/run.mjs"
+  },
+  "homepage": "https://alokraj68.in/pagecheck",
+  "bugs": {
+    "url": "https://github.com/alokraj68/craftkit/issues"
   }
 }

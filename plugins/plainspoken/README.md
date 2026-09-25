@@ -172,7 +172,7 @@ is deliberately not imported.
 
 ## 🧰 Part of craftkit
 
-One of four tools in [craftkit](https://github.com/alokraj68/craftkit). Set all of
+One of four tools in [craftkit](https://alokraj68.in/craftkit). Set all of
 them up at once, picking only what you need:
 
 ```bash
@@ -182,8 +182,8 @@ npx @alokraj68/craftkit
 | | | |
 |---|---|---|
 | ✍️ **`plainspoken`** | you are here | prose that does not read as machine-written |
-| 📱 [`pagecheck`](https://www.npmjs.com/package/@alokraj68/pagecheck) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
-| 📄 [`ats-resume`](https://www.npmjs.com/package/@alokraj68/ats-resume) | [docs](https://github.com/alokraj68/craftkit/tree/main/plugins/ats-resume) | a résumé an applicant tracking system can parse, and JD gap analysis |
+| 📱 [`pagecheck`](https://www.npmjs.com/package/@alokraj68/pagecheck) | [docs](https://alokraj68.in/pagecheck) | pages that survive a phone: overflow, tiny text, tap targets, WCAG AA |
+| 📄 [`ats-resume`](https://www.npmjs.com/package/@alokraj68/ats-resume) | [docs](https://alokraj68.in/ats-resume) | a résumé an applicant tracking system can parse, and JD gap analysis |
 | 🧭 [`craft-setup`](https://github.com/alokraj68/craftkit/tree/main/plugins/craft-setup) | skill only | verify before claiming done; never commit unasked |
 
 ### The skill ships with this package
@@ -199,10 +199,10 @@ as a Claude Code skill via the marketplace, and it is also in the npm tarball at
 
 ### Elsewhere
 
-- 🛡️ [`eslint-plugin-typeorm-enterprise`](https://www.npmjs.com/package/eslint-plugin-typeorm-enterprise) — the same
+- 🛡️ [`eslint-plugin-typeorm-enterprise`](https://alokraj68.in/eslint-plugin-typeorm-enterprise) — the same
   principle pointed at TypeORM: block raw SQL, require transactions, guard multi-tenant
   queries. Not part of craftkit; it fails a build the same way.
-  [docs](https://github.com/alokraj68/eslint-plugin-typeorm-enterprise)
+  [docs](https://alokraj68.in/eslint-plugin-typeorm-enterprise)
 - 🌐 [alokraj68.in](https://alokraj68.in) — who writes these, and what they were built for.
 
 ## Licence

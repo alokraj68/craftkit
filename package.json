@@ -1,6 +1,6 @@
 {
   "name": "@alokraj68/craftkit",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Set up Claude Code for what you actually do on this machine. Asks whether you are doing UI, writing, coding, resumes or SEO, then installs only those plugins and skills.",
   "keywords": [
     "claude-code",
@@ -10,7 +10,13 @@
     "skills",
     "cli",
     "agent",
-    "developer-tools"
+    "developer-tools",
+    "claude-plugin",
+    "claude-code-plugin",
+    "ai-agents",
+    "code-quality",
+    "quality-gates",
+    "marketplace"
   ],
   "license": "MIT",
   "author": "Alok Rajasukumaran (https://alokraj68.in)",
@@ -28,7 +34,7 @@
     "type": "git",
     "url": "git+https://github.com/alokraj68/craftkit.git"
   },
-  "homepage": "https://github.com/alokraj68/craftkit#readme",
+  "homepage": "https://alokraj68.in/craftkit",
   "bugs": {
     "url": "https://github.com/alokraj68/craftkit/issues"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@alokraj68/plainspoken",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Fail the build when writing reads as machine-written. A prose linter for AI fingerprints, filler and abstraction, with zero dependencies.",
   "keywords": [
     "ai-detection",
@@ -12,7 +12,14 @@
     "editorial",
     "style-guide",
     "claude-code",
-    "content-quality"
+    "content-quality",
+    "ai-slop",
+    "ai-writing-detection",
+    "technical-writing",
+    "documentation",
+    "readme",
+    "prose-lint",
+    "copywriting"
   ],
   "license": "MIT",
   "author": "Alok Rajasukumaran (https://alokraj68.in)",
@@ -31,7 +38,7 @@
     "url": "git+https://github.com/alokraj68/craftkit.git",
     "directory": "plugins/plainspoken"
   },
-  "homepage": "https://github.com/alokraj68/craftkit/tree/main/plugins/plainspoken#readme",
+  "homepage": "https://alokraj68.in/plainspoken",
   "bugs": {
     "url": "https://github.com/alokraj68/craftkit/issues"
   },
