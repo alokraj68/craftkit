@@ -96,7 +96,7 @@ their own upstreams, and runs the two installers that cannot be a plain copy.
 |---|---|
 | 🎨 **ui** | frontend-design, ui-ux-pro-max, design-taste-frontend, nine Emil Kowalski motion skills, impeccable, `pagecheck` |
 | ✍️ **writing** | `plainspoken` |
-| 💻 **coding** | ponytail, karpathy-guidelines, `craft-setup` |
+| 💻 **coding** | ponytail, i-have-adhd, karpathy-guidelines, `craft-setup` |
 | 📄 **resume** | `ats-resume`, `plainspoken` |
 | 🔍 **seo** | ~30 SEO skills |
 | ⚙️ **always** | caveman, lean-ctx |
@@ -361,7 +361,7 @@ Every rule carries a comment explaining why it survived. If you add one, say wha
 
 `plainspoken`'s AI-fingerprint rules build on [ARPeeketi/claude-resume-kit](https://github.com/ARPeeketi/claude-resume-kit). Seven prose patterns are distilled from the `deslop` skill in [every-app/open-seo](https://github.com/every-app/open-seo): the seven that survived the false-positive filter above.
 
-Curated third-party work belongs to its authors: [pbakaus/impeccable](https://github.com/pbakaus/impeccable), [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill), [emilkowalski/skills](https://github.com/emilkowalski/skills), [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills), [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo), [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill), [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail), [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman), [yvgude/lean-ctx](https://github.com/yvgude/lean-ctx).
+Curated third-party work belongs to its authors: [pbakaus/impeccable](https://github.com/pbakaus/impeccable), [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill), [emilkowalski/skills](https://github.com/emilkowalski/skills), [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills), [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo), [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill), [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail), [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd), [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman), [yvgude/lean-ctx](https://github.com/yvgude/lean-ctx).
 
 ### Elsewhere
 

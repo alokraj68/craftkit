@@ -50,6 +50,7 @@
       "blurb": "smallest thing that works, and verify before claiming done",
       "items": [
         "ponytail",
+        "i-have-adhd",
         "karpathy-guidelines",
         "craft-setup"
       ]
@@ -116,6 +117,14 @@
       "plugin": "ponytail",
       "what": "laziest-that-works mindset; stops over-engineering before it starts",
       "licence": "check upstream"
+    },
+    "i-have-adhd": {
+      "kind": "plugin",
+      "marketplace": "i-have-adhd",
+      "repo": "ayghri/i-have-adhd",
+      "plugin": "i-have-adhd",
+      "what": "action-first output for an ADHD reader: next step, numbered steps, no preamble",
+      "licence": "MIT (c) Ayoub Ghriss"
     },
     "plainspoken": {
       "kind": "craftkit",
