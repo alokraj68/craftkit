@@ -47,6 +47,20 @@ quiet('We ported the importer from Java to C# in April 2019.', 'a real port is n
 quiet('The team shipped in Australia, Europe and the US last year.', 'a list of places is not tricolon abuse');
 quiet('It runs on Node 24, Postgres 16 and Redis 7 across 3 regions.', 'a factual stack list');
 
+console.log('\nhidden characters');
+const hidden = (text) => lint(text).findings.filter((f) => f.rule === 'hidden-char');
+test('zero-width space inside a keyword', () => assert.equal(hidden('We ran Kuber\u200Bnetes in Kochi.\n').length, 1));
+test('tag-character smuggling', () => assert.equal(hidden('Shipped in May.\u{E0041}\u{E0042}\n').length, 2));
+test('bidi override', () => assert.equal(hidden('Ravi wrote \u202Ethis\u202C in 2019.\n').length, 2));
+test('soft hyphen', () => assert.equal(hidden('Kochi re\u00ADleased v2.\n').length, 1));
+test('inside a code fence too', () => assert.equal(hidden('```\nx\u200By\n```\n').length, 1));
+test('reports the right line', () => assert.equal(hidden('Line one.\n\nKochi\u200B.\n')[0].line, 3));
+test('hidden char is an error', () => assert.ok(lint('Kuber\u200Bnetes.\n').stats.errors > 0));
+test('emoji family ZWJ is silent', () => assert.equal(hidden('Family: \u{1F468}\u200D\u{1F469}\u200D\u{1F467} in Kochi.\n').length, 0));
+test('Devanagari ZWJ is silent', () => assert.equal(hidden('\u0915\u094D\u200D\u0937 is a conjunct.\n').length, 0));
+test('no-break space is silent', () => assert.equal(hidden('Rs\u00A01,55,000 in May.\n').length, 0));
+test('leading BOM is silent', () => assert.equal(hidden('\uFEFFRedis 7 shipped in Kochi.\n').length, 0));
+
 console.log('\nnon-prose is not linted');
 test('code fence ignored', () => {
   const r = lint('```\nproven track record of leverage\n```\n\nRedis 7 shipped in Kochi on 4 May.\n');

@@ -5,7 +5,7 @@ Fail the build when writing reads as machine-written.
 [![CI](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml/badge.svg)](https://github.com/alokraj68/craftkit/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/%40alokraj68%2Fplainspoken.svg?logo=npm&color=0b7285)](https://www.npmjs.com/package/@alokraj68/plainspoken)
 [![install size](https://packagephobia.com/badge?p=@alokraj68/plainspoken)](https://packagephobia.com/result?p=@alokraj68/plainspoken)
-[![tests](https://img.shields.io/badge/tests-33-2EA043.svg)](#testing)
+[![tests](https://img.shields.io/badge/tests-44-2EA043.svg)](#testing)
 [![runtime deps](https://img.shields.io/badge/runtime%20deps-0-2EA043.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node >=18](https://img.shields.io/badge/Node-%3E%3D18-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)

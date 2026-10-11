@@ -1,6 +1,6 @@
 import {
   AI_PHRASES, AI_WORDS, VAGUE_TAIL, ADJECTIVE_PAIR, TECH_LIST_TAIL,
-  FILLER_ADJECTIVES, PROSE_TELLS, BANNED, PLAIN_SWAPS, DEFAULTS, PRESETS,
+  FILLER_ADJECTIVES, PROSE_TELLS, HIDDEN_CHARS, BANNED, PLAIN_SWAPS, DEFAULTS, PRESETS,
 } from './rules.mjs';
 import {
   stripNonProse, sentences, bullets, withoutBullets, lineAt, words,
@@ -39,6 +39,17 @@ export function lint(raw, options = {}) {
     if (severity === 'off') return;
     findings.push({ severity, rule, line, message, evidence });
   };
+
+  // Hidden characters: scanned in the raw file, so offsets map to raw lines.
+  for (const [label, re] of HIDDEN_CHARS) {
+    for (const m of raw.matchAll(re)) {
+      const line = lineAt(raw, m.index);
+      if (muted.has(line) || cfg.severity['hidden-char'] === 'off') continue;
+      const cp = 'U+' + m[0].codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+      findings.push({ severity: cfg.severity['hidden-char'], rule: 'hidden-char', line,
+        message: `${label} (${cp}) - invisible, delete it`, evidence: raw.split('\n')[line - 1] });
+    }
+  }
 
   /** Report at the offset of the match, not the start of its sentence. */
   const at = (unit, m) => unit.offset + (m?.index ?? 0);

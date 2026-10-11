@@ -145,6 +145,7 @@ export const PLAIN_SWAPS = {
  * builds over it is how a checker gets switched off.
  */
 export const SEVERITY = {
+  'hidden-char': 'error',
   'ai-phrase': 'error',
   'filler-phrase': 'error',
   'prose-tell': 'error',
@@ -159,6 +160,33 @@ export const SEVERITY = {
   'flat-rhythm': 'warn',
   'em-dash': 'warn',
 };
+
+/**
+ * Characters a reader cannot see. They arrive from model output, from text
+ * pasted out of a web page, and from Unicode tag "ASCII smuggling". On a CV
+ * they split a keyword the ATS is matching ("Kuber\u200Bnetes" scores zero); in
+ * a form answer they read as pasted. Checked over the whole file, code fences
+ * included, because invisible is invisible everywhere.
+ *
+ * Deliberately not here: the no-break space, which typography uses on purpose.
+ * Zero-width joiner and non-joiner are legal inside emoji sequences and in
+ * Devanagari, Arabic and Persian script, so they count only between two ASCII
+ * characters - the case that has no legitimate use.
+ *
+ * The character list started from the humanizer in avi691/linkedin-agent-skill
+ * (MIT). Its word swaps were not taken: they made text pass by changing it, not
+ * by fixing it.
+ */
+export const HIDDEN_CHARS = [
+  ['zero-width space', /\u200B/g],
+  ['zero-width joiner between ASCII', /(?<=[\x21-\x7E])[\u200C\u200D](?=[\x21-\x7E])/g],
+  ['directional mark', /[\u200E\u200F\u061C]/g],
+  ['bidi override (Trojan Source)', /[\u202A-\u202E\u2066-\u2069]/g],
+  ['word joiner or invisible operator', /[\u2060-\u2064\u180E]/g],
+  ['soft hyphen', /\u00AD/g],
+  ['byte-order mark mid-file', /(?<!^)\uFEFF/g],
+  ['Unicode tag character', /[\u{E0000}-\u{E007F}]/gu],
+];
 
 /** Thresholds. Override any of these from the config file. */
 export const DEFAULTS = {

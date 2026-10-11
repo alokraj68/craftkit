@@ -160,6 +160,7 @@ docs/architecture.md
 | 🟡 **Warnings** | Ratios and rhythm. A short factual README trips the abstraction ratio, and failing a build over that is how a linter gets deleted |
 | 🎚️ **Presets** | `docs` (default), `resume` (ratios become gates), `strict` (everything fails) |
 | 🤫 **Suppression** | `<!-- plainspoken-disable-next-line -->`, because a style guide has to quote its own banned list |
+| 👻 **Hidden characters** | Zero-width spaces, soft hyphens, bidi overrides and Unicode tag characters fail the run, code fences included. `Kuber\u200Bnetes` scores zero with an ATS. Emoji and Devanagari joiners stay legal |
 | 🙈 **Never linted** | Code fences, inline code, frontmatter, URLs, link targets, HTML tags, tables, with line numbers still pointing at the original file |
 
 ### 📱 pagecheck
@@ -207,11 +208,11 @@ Distilled from running agents across a résumé generator, an Angular ERP, a Nes
 
 ## 🧪 The filter every rule had to pass
 
-**103 tests.** Every suite asserts twice — fire on input built to trip it, stay silent on input that is merely factual.
+**114 tests.** Every suite asserts twice — fire on input built to trip it, stay silent on input that is merely factual.
 
 | Suite | Tests | Fires on | Silent on |
 |---|---|---|---|
-| `plainspoken` | 33 | `fixtures/slop.md` | `fixtures/clean.md` |
+| `plainspoken` | 44 | `fixtures/slop.md` | `fixtures/clean.md` |
 | `ats-resume` | 49 | `fixtures/broken.json` | `fixtures/good.json` |
 | `pagecheck` | 21 | `fixtures/broken/` | `fixtures/clean/` |
 

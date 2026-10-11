@@ -22,7 +22,7 @@ craftkit/
       src/analyze.mjs               document -> the units the rules judge
       src/lint.mjs                  the runner, severity and suppression
       bin/plainspoken.mjs           CLI
-      test/run.mjs                  33 tests
+      test/run.mjs                  44 tests
     pagecheck/                      npm package + skill
       src/audit.mjs                 the two in-page audits, plus pure rule helpers
       bin/pagecheck.mjs             CLI: serves a dir or hits a URL
@@ -95,7 +95,7 @@ matters.
 ```
 npm test                                 # all three suites
 
-node plugins/plainspoken/test/run.mjs    # 33 tests
+node plugins/plainspoken/test/run.mjs    # 44 tests
 node plugins/ats-resume/test/run.mjs     # 49 tests
 node plugins/pagecheck/test/run.mjs      # 21 tests
 ```
